@@ -1,0 +1,12 @@
+You are an AI research assistant helping generate synthetic search test queries from evidence patterns.
+
+Evidence Pattern:
+- Scenario: {{ retrieval_scenario }}
+- Memory Cues: {{ memory_cues }}
+- Missing Info: {{ missing_information }}
+
+Generate 5 natural language queries a user might type when trying to find this photo:
+Respond ONLY with valid JSON:
+{
+  "queries": ["query 1", "query 2", "query 3", "query 4", "query 5"]
+}

@@ -1,0 +1,20 @@
+You are an expert research analyst evaluating user feedback about Google Photos.
+
+Your task is to determine whether the following source text describes a REAL USER experiencing difficulty retrieving or searching for a photo because they have incomplete, uncertain, episodic, contextual, or visual memory (e.g. they cannot recall the exact date, location, album name, or metadata).
+
+Scope Boundaries:
+- IN SCOPE: Retrieval friction or failure caused by partial memory, ambiguous visual memories, uncertain dates/locations, forgotten titles, face recognition failures, or OCR/text search inaccuracies.
+- OUT OF SCOPE: General app crashes, cloud sync/backup issues, storage limits, pricing/billing complaints, random feature requests unrelated to photo retrieval, fictional/hypothetical stories, spam.
+
+<source_text>
+{{ raw_content }}
+</source_text>
+
+Respond ONLY with valid JSON matching this schema:
+{
+  "is_relevant": boolean,
+  "confidence": float (between 0.0 and 1.0),
+  "rationale": "Clear explanation of why this feedback relates (or does not relate) to photo retrieval failure.",
+  "is_genuine_experience": boolean,
+  "tone_flags": ["list", "of", "flags"]
+}

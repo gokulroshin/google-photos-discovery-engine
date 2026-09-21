@@ -1,0 +1,52 @@
+[
+  {
+    "id": "ev_fixture_001",
+    "source_record_id": "src_fixture_001",
+    "is_relevant": true,
+    "relevance_labels": ["vague_visual_memory", "missing_temporal_context"],
+    "retrieval_scenario": "User searching for pet photo with specific clothing and city context",
+    "memory_cues": {
+      "person": null,
+      "place": "Chicago",
+      "time": "2021",
+      "event": null,
+      "object": "dog, yellow raincoat",
+      "visual": "dog wearing yellow raincoat",
+      "text": null,
+      "emotion": null,
+      "purpose": "find pet memory",
+      "source": null
+    },
+    "missing_information": "Exact calendar date or album name",
+    "search_behavior": "Typed descriptive keywords: 'yellow raincoat dog'",
+    "retrieval_outcome": "abandoned",
+    "failure_points": ["Multi-attribute visual composition missed", "No spatial/temporal tie-in"],
+    "user_segment": "casual_photographer",
+    "evidence_excerpt": "typing 'yellow raincoat dog' brought up hundreds of random outdoor shots and missed the exact one",
+    "confidence_score": 0.94,
+    "rationale": "Clear retrieval failure where user remembered visual attributes and city but exact metadata was missing.",
+    "needs_human_review": false,
+    "is_genuine_experience": true
+  },
+  {
+    "id": "ev_fixture_002",
+    "source_record_id": "src_fixture_002",
+    "is_relevant": true,
+    "relevance_labels": ["ocr_failure", "contextual_scene_memory"],
+    "retrieval_scenario": "Locating photo of receipt on glass table in Seattle",
+    "memory_cues": {
+      "place": "Seattle",
+      "object": "receipt, glass coffee table",
+      "visual": "receipt on glass surface"
+    },
+    "missing_information": "Store name, transaction date",
+    "search_behavior": "Descriptive scene search without store name",
+    "retrieval_outcome": "abandoned",
+    "failure_points": ["OCR failed to index unlabelled text", "Visual classifier prioritized coffee cups over document receipt"],
+    "user_segment": "pragmatic_archivist",
+    "evidence_excerpt": "without the exact store name or date, search gave up after showing 2 unrelated coffee cups",
+    "confidence_score": 0.91,
+    "needs_human_review": false,
+    "is_genuine_experience": true
+  }
+]

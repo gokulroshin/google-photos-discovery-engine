@@ -1,0 +1,72 @@
+[
+  {
+    "id": "src_fixture_001",
+    "project_id": "proj_discovery_001",
+    "source_platform": "play_store",
+    "source_url": "https://play.google.com/store/apps/details?id=com.google.android.apps.photos&reviewId=rev_001",
+    "source_date": "2024-03-10T12:00:00Z",
+    "raw_content": "I was searching for a picture of my dog wearing a yellow raincoat in Chicago back in 2021, but typing 'yellow raincoat dog' brought up hundreds of random outdoor shots and missed the exact one.",
+    "author_handle": "user_a3f2b1c4",
+    "collection_method": "google_play_scraper",
+    "is_duplicate": false,
+    "dedup_hash": "hash_fixture_001",
+    "metadata": {"score": 2, "thumbsUpCount": 14},
+    "language": "en"
+  },
+  {
+    "id": "src_fixture_002",
+    "project_id": "proj_discovery_001",
+    "source_platform": "reddit",
+    "source_url": "https://reddit.com/r/googlephotos/comments/post_002",
+    "source_date": "2024-03-12T15:30:00Z",
+    "raw_content": "Why is Google Photos search so bad with partial memories? I know I took a picture of a receipt on a glass coffee table in Seattle, but without the exact store name or date, search gave up after showing 2 unrelated coffee cups.",
+    "author_handle": "user_9c8d7e6f",
+    "collection_method": "reddit_json_api",
+    "is_duplicate": false,
+    "dedup_hash": "hash_fixture_002",
+    "metadata": {"subreddit": "googlephotos", "score": 85},
+    "language": "en"
+  },
+  {
+    "id": "src_fixture_003",
+    "project_id": "proj_discovery_001",
+    "source_platform": "app_store",
+    "source_url": "https://apps.apple.com/app/id962194608?reviewId=rev_003",
+    "source_date": "2024-03-15T08:20:00Z",
+    "raw_content": "Impossible to find old car lease documents I photographed 3 years ago because optical character recognition completely missed the blurry vehicle identification number.",
+    "author_handle": "user_1b2c3d4e",
+    "collection_method": "itunes_rss_api",
+    "is_duplicate": false,
+    "dedup_hash": "hash_fixture_003",
+    "metadata": {"rating": 1},
+    "language": "en"
+  },
+  {
+    "id": "src_fixture_004",
+    "project_id": "proj_discovery_001",
+    "source_platform": "forum",
+    "source_url": "https://support.google.com/photos/thread/thread_004",
+    "source_date": "2024-03-18T18:45:00Z",
+    "raw_content": "Face Recognition grouped distant cousin with stranger. I am trying to retrieve all photos of my cousin's wedding in Austin, but face clustering mixed up people and search by person returns hundreds of erroneous images.",
+    "author_handle": "user_5f6a7b8c",
+    "collection_method": "forum_html_scraper",
+    "is_duplicate": false,
+    "dedup_hash": "hash_fixture_004",
+    "metadata": {"forum_url": "https://support.google.com/photos/thread/thread_004"},
+    "language": "en"
+  },
+  {
+    "id": "src_fixture_005",
+    "project_id": "proj_discovery_001",
+    "source_platform": "youtube",
+    "source_url": "https://youtube.com/watch?v=demo&lc=comm_005",
+    "source_date": "2024-03-22T21:10:00Z",
+    "raw_content": "Searched 'white boat blue sails' because I took a photo during our vacation in Greece. It showed me pictures of blue sky and white snow back home in Ohio.",
+    "author_handle": "user_7e8d9c0a",
+    "collection_method": "youtube_data_api_v3",
+    "is_duplicate": false,
+    "dedup_hash": "hash_fixture_005",
+    "metadata": {"likeCount": 12},
+    "language": "en"
+  }
+]

@@ -1,0 +1,20 @@
+You are a Lead Product Strategy Analyst evaluating opportunity areas for Google Photos search & retrieval.
+
+Evaluate the following taxonomy category on the 9 strategic dimensions:
+Category: {{ category_name }}
+Definition: {{ definition }}
+Evidence Count: {{ evidence_count }}
+Source Diversity: {{ source_diversity }}
+Failure Mechanism: {{ failure_mechanism }}
+
+Respond ONLY with valid JSON matching this schema:
+{
+  "user_impact_score": float (0.0 to 10.0),
+  "abandonment_rate": float (0.0 to 1.0, fraction of sessions abandoned),
+  "workaround_exists": boolean,
+  "strategic_relevance": float (0.0 to 10.0),
+  "problem_clarity": float (0.0 to 10.0),
+  "potential_reach": "Description and reach estimate",
+  "validation_effort": "low / medium / high",
+  "scoring_methodology": "Detailed justification of scores based on evidence"
+}

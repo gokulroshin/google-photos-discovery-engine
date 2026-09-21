@@ -1,0 +1,54 @@
+[
+  {
+    "id": "tax_fixture_001",
+    "project_id": "proj_discovery_001",
+    "version": 1,
+    "name": "Incomplete Contextual & Visual Memory",
+    "definition": "Users recall specific visual cues (e.g. clothing color, background objects, weather) or approximate times/locations, but lack searchable filenames or album tags.",
+    "user_segment": "Casual photographers & family archivists",
+    "failure_mechanism": "Keyword search fails to correlate multi-object relationships and contextual scene semantics.",
+    "evidence_count": 34,
+    "unique_author_count": 31,
+    "confidence_level": "high",
+    "product_implications": "Opportunity for multi-modal contextual query expansion and visual attribute binding.",
+    "representative_excerpts": [
+      "typing 'yellow raincoat dog' brought up hundreds of random outdoor shots and missed the exact one",
+      "Searched 'white boat blue sails' because I took a photo during our vacation in Greece"
+    ],
+    "open_questions": [
+      "How frequently do users abandon multi-word episodic queries?",
+      "Can conversational follow-up questions clarify vague visual memories?"
+    ],
+    "source_diversity": {
+      "play_store": 12,
+      "reddit": 10,
+      "app_store": 7,
+      "youtube": 3,
+      "forum": 2
+    }
+  },
+  {
+    "id": "tax_fixture_002",
+    "project_id": "proj_discovery_001",
+    "version": 1,
+    "name": "OCR & Document Scene Misclassification",
+    "definition": "Users photograph physical receipts, tickets, whiteboards, or signs with partial or blurry text, where OCR and scene tagging fail to index the document payload.",
+    "user_segment": "Power users & pragmatic organizers",
+    "failure_mechanism": "OCR misses slanted or low-contrast text; scene classifiers categorize the surrounding furniture instead of the document.",
+    "evidence_count": 28,
+    "unique_author_count": 26,
+    "confidence_level": "high",
+    "product_implications": "Requires enhanced document rectification and hybrid visual-text embedding extraction.",
+    "representative_excerpts": [
+      "Impossible to find old car lease documents because optical character recognition completely missed the blurry vehicle identification number"
+    ],
+    "open_questions": [
+      "What percentage of retrieval queries target captured text documents?"
+    ],
+    "source_diversity": {
+      "app_store": 11,
+      "play_store": 9,
+      "reddit": 8
+    }
+  }
+]

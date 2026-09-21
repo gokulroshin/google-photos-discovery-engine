@@ -1,0 +1,39 @@
+[
+  {
+    "id": "opp_fixture_001",
+    "project_id": "proj_discovery_001",
+    "taxonomy_category_id": "tax_fixture_001",
+    "name": "Multi-Modal Contextual Query Expansion",
+    "description": "Enable conversational and semantic query decomposition for episodic visual recollections (e.g. 'dog in yellow coat in Chicago in 2021').",
+    "evidence_frequency": 34,
+    "unique_author_count": 31,
+    "user_impact_score": 8.8,
+    "abandonment_rate": 0.42,
+    "workaround_exists": true,
+    "strategic_relevance": 9.2,
+    "problem_clarity": 8.5,
+    "potential_reach": "High reach across casual and family mobile photographers",
+    "validation_effort": "medium",
+    "scoring_methodology": "High abandonment rate (42%) and frequent user friction across all source platforms without clean workarounds.",
+    "status": "validated",
+    "analyst_notes": "High strategic alignment with core Gemini multi-modal retrieval roadmap."
+  },
+  {
+    "id": "opp_fixture_002",
+    "project_id": "proj_discovery_001",
+    "taxonomy_category_id": "tax_fixture_002",
+    "name": "Robust Document & Receipt Retrieval Engine",
+    "description": "Improve OCR error tolerance and spatial scene rectification for captured receipts, bills, leases, and serial numbers.",
+    "evidence_frequency": 28,
+    "unique_author_count": 26,
+    "user_impact_score": 8.1,
+    "abandonment_rate": 0.35,
+    "workaround_exists": false,
+    "strategic_relevance": 8.4,
+    "problem_clarity": 9.0,
+    "potential_reach": "Medium-to-high reach for utility document searchers",
+    "validation_effort": "low",
+    "scoring_methodology": "Clear failure mode where absence of OCR result directly causes complete query failure with zero workaround.",
+    "status": "validated"
+  }
+]

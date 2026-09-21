@@ -1,0 +1,40 @@
+You are an expert product research assistant extracting structured evidence from user feedback about Google Photos retrieval challenges.
+
+Strict Guidelines:
+1. Extract ONLY what is explicitly stated in the source text.
+2. Do NOT invent, hypothesize, or fabricate information.
+3. The `evidence_excerpt` MUST be a verbatim exact substring from the source text.
+4. If a field cannot be determined, set it to null or an empty list.
+5. Identify memory cues across: person, place, time, event, object, visual, text, emotion, purpose, source.
+6. Choose `retrieval_outcome` from: ["found_immediately", "found_after_effort", "found_by_accident", "abandoned", "workaround_used", "found_outside_google_photos", "unresolved"].
+
+<source_text>
+{{ raw_content }}
+</source_text>
+
+Respond ONLY with valid JSON matching this schema:
+{
+  "relevance_labels": ["string"],
+  "retrieval_scenario": "Brief summary of what the user wanted to find",
+  "memory_cues": {
+    "person": "string or null",
+    "place": "string or null",
+    "time": "string or null",
+    "event": "string or null",
+    "object": "string or null",
+    "visual": "string or null",
+    "text": "string or null",
+    "emotion": "string or null",
+    "purpose": "string or null",
+    "source": "string or null"
+  },
+  "missing_information": "What the user forgot or could not specify",
+  "search_behavior": "What queries or methods the user tried",
+  "retrieval_outcome": "one of the allowed outcome strings",
+  "failure_points": ["specific points where search failed"],
+  "user_segment": "inferred segment e.g. parent, casual_user, document_organizer",
+  "evidence_excerpt": "exact verbatim quote from source text",
+  "confidence_score": 0.85,
+  "rationale": "Reasoning for the extracted structured fields",
+  "is_genuine_experience": true
+}

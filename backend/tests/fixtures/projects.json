@@ -1,0 +1,27 @@
+[
+  {
+    "id": "proj_discovery_001",
+    "name": "Core Photo Retrieval Experience Discovery 2024",
+    "description": "Exploratory research into episodic and contextual memory failure modes when retrieving photos in Google Photos without exact metadata.",
+    "research_questions": [
+      "What types of memory cues do users recall when searching for photos?",
+      "Why does visual and textual search fail for complex scenes?",
+      "What is the abandonment rate for queries lacking exact dates or locations?"
+    ],
+    "status": "active",
+    "created_at": "2024-01-15T09:00:00Z",
+    "updated_at": "2024-05-20T14:30:00Z"
+  },
+  {
+    "id": "proj_discovery_002",
+    "name": "Multi-Modal Conversational Photo Search Benchmark",
+    "description": "Benchmarking natural language and conversational search queries against traditional metadata filtering in Google Photos.",
+    "research_questions": [
+      "How do users express temporal uncertainty in natural language search?",
+      "Can conversational follow-up questions resolve vague visual recollections?"
+    ],
+    "status": "draft",
+    "created_at": "2024-02-01T10:00:00Z",
+    "updated_at": "2024-04-10T11:00:00Z"
+  }
+]
