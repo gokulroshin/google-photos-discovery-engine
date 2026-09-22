@@ -8,6 +8,7 @@ from backend.logger import logger
 settings = get_settings()
 
 # Normalize connection string for async drivers
+import re
 db_url = settings.DATABASE_URL
 if db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql+asyncpg://", 1)
@@ -15,6 +16,9 @@ elif db_url.startswith("postgresql://") and "+asyncpg" not in db_url:
     db_url = db_url.replace("postgresql://", "postgresql+asyncpg://", 1)
 elif db_url.startswith("sqlite://") and "+aiosqlite" not in db_url:
     db_url = db_url.replace("sqlite://", "sqlite+aiosqlite://", 1)
+
+if "postgresql+asyncpg://" in db_url:
+    db_url = re.sub(r"[?&]sslmode=[^&]+", "", db_url)
 
 engine = create_async_engine(
     db_url,

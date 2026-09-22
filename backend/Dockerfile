@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements (supporting both root and backend-relative build contexts)
+# Copy requirements
 COPY requirements.txt* backend/requirements.txt* ./
 RUN if [ -f "requirements.txt" ]; then \
         pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt; \
@@ -26,4 +26,4 @@ ENV ENVIRONMENT=production
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["python", "main.py"]
