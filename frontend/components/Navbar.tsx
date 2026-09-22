@@ -137,27 +137,16 @@ export function Navbar() {
           )}
         </div>
 
-        {/* User Info */}
-        {user ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{ textAlign: 'right', fontSize: '0.8rem' }}>
-              <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{user.name}</div>
-              <div style={{ color: 'var(--text-muted)', textTransform: 'capitalize' }}>{user.role}</div>
-            </div>
-            <button
-              onClick={() => logout()}
-              className="btn btn-secondary btn-sm"
-              title="Sign Out"
-              style={{ padding: '0.4rem' }}
-            >
-              <LogOut size={15} />
-            </button>
+        {/* Public Access Badge */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{ textAlign: 'right', fontSize: '0.8rem' }}>
+            <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{user?.name || 'Public Access'}</div>
+            <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>Open Research Console</div>
           </div>
-        ) : (
-          <Link href="/login" className="btn btn-primary btn-sm">
-            Sign In
-          </Link>
-        )}
+          <span className="badge badge-info" style={{ fontSize: '0.7rem', padding: '0.2rem 0.5rem' }}>
+            Public
+          </span>
+        </div>
       </div>
     </header>
   );
