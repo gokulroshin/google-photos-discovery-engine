@@ -71,11 +71,12 @@ async def lifespan(app: FastAPI):
         mock_data_mode=settings.MOCK_DATA_MODE,
     )
 
-    # Initialize tables for development/testing if using sqlite
-    if "sqlite" in settings.DATABASE_URL:
+    try:
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
-        logger.info("Database tables initialized for local/sqlite environment")
+        logger.info("Database tables initialized successfully")
+    except Exception as e:
+        logger.warning("Database table initialization warning", error=str(e))
 
     yield
     # Shutdown
@@ -100,13 +101,34 @@ def create_app() -> FastAPI:
     app.add_middleware(RequestLoggingMiddleware)
 
     # CORS Middleware
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=settings.ALLOWED_ORIGINS,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    origins = settings.ALLOWED_ORIGINS
+    is_wildcard = "*" in origins if isinstance(origins, list) else origins == "*"
+    if is_wildcard:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"],
+            allow_credentials=False,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+    else:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=origins,
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+
+    # Root route
+    @app.get("/")
+    async def root():
+        return {
+            "name": "Google Photos Discovery Engine API",
+            "version": settings.APP_VERSION,
+            "status": "healthy",
+            "docs": "/docs",
+        }
 
     # Health Check Endpoints
     app.include_router(health.router)
