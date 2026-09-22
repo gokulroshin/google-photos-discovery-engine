@@ -1,8 +1,8 @@
 import os
+import sys
 import uvicorn
 from backend.config import get_settings
 from backend.logger import logger
-from backend.main import app
 
 if __name__ == "__main__":
     settings = get_settings()
@@ -12,5 +12,5 @@ if __name__ == "__main__":
     except Exception:
         port = 8000
     host = os.environ.get("HOST", "0.0.0.0")
-    print(f"[Railway Entrypoint] Starting Uvicorn server on {host}:{port}...")
-    uvicorn.run(app, host=host, port=port)
+    print(f"[Railway Entrypoint] Starting Uvicorn server on {host}:{port}...", flush=True)
+    uvicorn.run("backend.main:app", host=host, port=port)

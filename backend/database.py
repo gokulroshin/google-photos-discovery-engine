@@ -51,12 +51,17 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
             await session.close()
 
 
+import asyncio
+
+async def _ping_db():
+    async with AsyncSessionLocal() as session:
+        await session.execute(text("SELECT 1"))
+        return True
+
 async def check_database_health() -> bool:
-    """Tests if the database connection is alive."""
+    """Tests if the database connection is alive with 2-second timeout."""
     try:
-        async with AsyncSessionLocal() as session:
-            await session.execute(text("SELECT 1"))
-            return True
+        return await asyncio.wait_for(_ping_db(), timeout=2.0)
     except Exception as e:
         logger.warning("Database health check failed", error=str(e))
         return False
