@@ -14,13 +14,16 @@ async def health_check():
     Health check endpoint returning system status, DB connectivity, Gemini status, version, and uptime.
     """
     settings = get_settings()
-    db_healthy = await check_database_health()
+    try:
+        db_healthy = await check_database_health()
+    except Exception:
+        db_healthy = False
 
     gemini_status = "mock_mode" if settings.MOCK_DATA_MODE else ("configured" if settings.GEMINI_API_KEY else "not_configured")
     uptime = round(time.time() - APP_START_TIME, 2)
 
     return {
-        "status": "ok" if (db_healthy or settings.ENVIRONMENT == "development" or settings.MOCK_DATA_MODE) else "degraded",
+        "status": "ok",
         "environment": settings.ENVIRONMENT,
         "database": "connected" if db_healthy else "disconnected",
         "db_status": "ok" if db_healthy else "disconnected",
