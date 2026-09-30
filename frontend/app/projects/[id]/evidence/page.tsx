@@ -105,6 +105,23 @@ export default function EvidenceViewerPage() {
 
   const activeFiltersCount = [outcome, search, failurePoint, needsReview, confMin !== undefined].filter(Boolean).length;
 
+  // Helper to identify False Positive Clutter
+  const isFalsePositiveClutter = (record: EvidenceRecord) => {
+    if (record.failure_points?.some((fp) => fp.includes('false_positive') || fp.includes('clutter') || fp.includes('noise'))) {
+      return true;
+    }
+    const content = (record.raw_content || record.evidence_excerpt || '').toLowerCase();
+    return (
+      content.includes('every picture') ||
+      content.includes('random photos') ||
+      content.includes('45 photos') ||
+      content.includes('300 blue') ||
+      content.includes('burying the actual') ||
+      content.includes('gave me every') ||
+      content.includes('returned every')
+    );
+  };
+
   // Highlight excerpt inside raw text
   const renderHighlightedText = (raw: string = '', excerpt: string | null = '') => {
     if (!excerpt || !raw.includes(excerpt)) {
@@ -133,6 +150,72 @@ export default function EvidenceViewerPage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+      {/* Quick Diagnostic Pill Bar */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
+        <button
+          type="button"
+          onClick={() => updateFilters({ failure_point: failurePoint === 'false_positive_clutter' ? null : 'false_positive_clutter' })}
+          style={{
+            padding: '0.4rem 0.85rem',
+            borderRadius: '9999px',
+            fontSize: '0.8rem',
+            fontWeight: 600,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            cursor: 'pointer',
+            border: failurePoint === 'false_positive_clutter' ? '1px solid #ef4444' : '1px solid var(--border-subtle)',
+            background: failurePoint === 'false_positive_clutter' ? 'rgba(239, 68, 68, 0.2)' : 'var(--bg-tertiary)',
+            color: failurePoint === 'false_positive_clutter' ? '#fca5a5' : 'var(--text-secondary)',
+          }}
+        >
+          <AlertTriangle size={13} color={failurePoint === 'false_positive_clutter' ? '#ef4444' : 'var(--text-muted)'} />
+          <span>🚨 False Positive Clutter (Noisy Results Flood)</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => updateFilters({ needs_review: needsReview === 'true' ? null : 'true' })}
+          style={{
+            padding: '0.4rem 0.85rem',
+            borderRadius: '9999px',
+            fontSize: '0.8rem',
+            fontWeight: 600,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            cursor: 'pointer',
+            border: needsReview === 'true' ? '1px solid #f59e0b' : '1px solid var(--border-subtle)',
+            background: needsReview === 'true' ? 'rgba(245, 158, 11, 0.2)' : 'var(--bg-tertiary)',
+            color: needsReview === 'true' ? '#fde68a' : 'var(--text-secondary)',
+          }}
+        >
+          <ShieldCheck size={13} color={needsReview === 'true' ? '#f59e0b' : 'var(--text-muted)'} />
+          <span>⚠️ AI FP Risk (Needs Review &lt; 0.70)</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => updateFilters({ outcome: outcome === 'gave_up' ? null : 'gave_up' })}
+          style={{
+            padding: '0.4rem 0.85rem',
+            borderRadius: '9999px',
+            fontSize: '0.8rem',
+            fontWeight: 600,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            cursor: 'pointer',
+            border: outcome === 'gave_up' ? '1px solid #8b5cf6' : '1px solid var(--border-subtle)',
+            background: outcome === 'gave_up' ? 'rgba(139, 92, 246, 0.2)' : 'var(--bg-tertiary)',
+            color: outcome === 'gave_up' ? '#c4b5fd' : 'var(--text-secondary)',
+          }}
+        >
+          <XCircle size={13} color={outcome === 'gave_up' ? '#8b5cf6' : 'var(--text-muted)'} />
+          <span>Abandoned Searches</span>
+        </button>
+      </div>
+
       {/* Filters Header Card */}
       <div className="card" style={{ padding: '1.25rem' }}>
         <div
@@ -250,6 +333,31 @@ export default function EvidenceViewerPage() {
             </select>
           </div>
 
+          {/* Failure Point / False Positive Filter */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Failure / Noise Type:</span>
+            <select
+              value={failurePoint}
+              onChange={(e) => updateFilters({ failure_point: e.target.value || null })}
+              style={{
+                padding: '0.35rem 0.65rem',
+                fontSize: '0.8rem',
+                background: 'var(--bg-tertiary)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: 'var(--radius-sm)',
+                color: 'var(--text-primary)',
+              }}
+            >
+              <option value="">All Failure Types</option>
+              <option value="false_positive_clutter">🚨 False Positive Clutter (Noisy Results Flood)</option>
+              <option value="multi_attribute_conjunction_failure">Multi-Attribute Conjunction Failure</option>
+              <option value="temporal_ambiguity">Temporal & Life-Stage Amnesia</option>
+              <option value="ocr_background_noise">OCR Background & Document Noise</option>
+              <option value="pet_face_clustering_error">Lookalike & Pet Clustering Collisions</option>
+              <option value="negative_filtering_unsupported">Negative / Exclusion Query Unsupported</option>
+            </select>
+          </div>
+
           {/* Confidence Filter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
             <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Min Confidence:</span>
@@ -295,6 +403,8 @@ export default function EvidenceViewerPage() {
           >
             {data.items.map((record) => {
               const isExpanded = !!expandedCards[record.id];
+              const isFPClutter = isFalsePositiveClutter(record);
+
               return (
                 <div
                   key={record.id}
@@ -307,11 +417,13 @@ export default function EvidenceViewerPage() {
                     gap: '1rem',
                     border: record.needs_human_review
                       ? '1px solid rgba(245, 158, 11, 0.4)'
+                      : isFPClutter
+                      ? '1px solid rgba(239, 68, 68, 0.35)'
                       : '1px solid var(--border-subtle)',
                   }}
                 >
                   <div>
-                    {/* Header: Confidence + Outcome */}
+                    {/* Header: Confidence + Outcome + FP Badges */}
                     <div
                       style={{
                         display: 'flex',
@@ -319,10 +431,49 @@ export default function EvidenceViewerPage() {
                         justifyContent: 'space-between',
                         gap: '0.5rem',
                         marginBottom: '0.75rem',
+                        flexWrap: 'wrap',
                       }}
                     >
-                      <ConfidenceBadge score={record.confidence_score} size="sm" />
-                      <OutcomeBadge outcome={record.retrieval_outcome} size="sm" />
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                        <ConfidenceBadge score={record.confidence_score} size="sm" />
+                        <OutcomeBadge outcome={record.retrieval_outcome} size="sm" />
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                        {isFPClutter && (
+                          <span
+                            style={{
+                              fontSize: '0.7rem',
+                              fontWeight: 700,
+                              padding: '0.2rem 0.5rem',
+                              background: 'rgba(239, 68, 68, 0.15)',
+                              color: '#f87171',
+                              border: '1px solid rgba(239, 68, 68, 0.3)',
+                              borderRadius: '4px',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '0.25rem',
+                            }}
+                          >
+                            <AlertTriangle size={11} /> False Positive Clutter
+                          </span>
+                        )}
+                        {record.needs_human_review && (
+                          <span
+                            style={{
+                              fontSize: '0.7rem',
+                              fontWeight: 600,
+                              padding: '0.2rem 0.45rem',
+                              background: 'rgba(245, 158, 11, 0.15)',
+                              color: '#fbbf24',
+                              border: '1px solid rgba(245, 158, 11, 0.3)',
+                              borderRadius: '4px',
+                            }}
+                          >
+                            Review Needed
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     {/* Scenario Title */}
@@ -366,10 +517,11 @@ export default function EvidenceViewerPage() {
                             style={{
                               fontSize: '0.7rem',
                               padding: '0.15rem 0.45rem',
-                              background: 'rgba(239, 68, 68, 0.1)',
-                              color: '#fca5a5',
+                              background: fp.includes('false_positive') ? 'rgba(239, 68, 68, 0.15)' : 'rgba(239, 68, 68, 0.08)',
+                              color: fp.includes('false_positive') ? '#fca5a5' : '#fca5a5',
                               border: '1px solid rgba(239, 68, 68, 0.2)',
                               borderRadius: '4px',
+                              fontWeight: fp.includes('false_positive') ? 600 : 400,
                             }}
                           >
                             {fp.replace(/_/g, ' ')}
@@ -449,7 +601,7 @@ export default function EvidenceViewerPage() {
                       onClick={() => setSelectedEvidence(record)}
                       leftIcon={<Eye size={13} />}
                     >
-                      Full 12-Field Detail
+                      Full Diagnostic
                     </Button>
                   </div>
                 </div>
@@ -469,7 +621,7 @@ export default function EvidenceViewerPage() {
         </div>
       )}
 
-      {/* Full 12-Field Evidence Detail Modal */}
+      {/* Full 12-Field Evidence Detail & False Positive Diagnostic Modal */}
       {selectedEvidence && (
         <Modal
           isOpen={!!selectedEvidence}
@@ -478,11 +630,11 @@ export default function EvidenceViewerPage() {
           title={
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               <Sparkles size={18} color="var(--accent-primary)" />
-              <span>Evidence Detail & Provenance</span>
+              <span>Evidence Diagnostics & False Positive Audit</span>
             </div>
           }
           footer={
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', flexWrap: 'wrap', gap: '0.5rem' }}>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
                 <Button
                   size="sm"
@@ -500,7 +652,7 @@ export default function EvidenceViewerPage() {
                   isLoading={reviewMutation.isPending}
                   leftIcon={<XCircle size={14} />}
                 >
-                  Reject Record
+                  Reject as AI False Positive
                 </Button>
               </div>
               <Button variant="primary" onClick={() => setSelectedEvidence(null)}>
@@ -515,6 +667,59 @@ export default function EvidenceViewerPage() {
               <ConfidenceBadge score={selectedEvidence.confidence_score} />
               <OutcomeBadge outcome={selectedEvidence.retrieval_outcome} />
               {selectedEvidence.source_platform && <SourceBadge platform={selectedEvidence.source_platform} />}
+              {isFalsePositiveClutter(selectedEvidence) && (
+                <span
+                  style={{
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    padding: '0.2rem 0.6rem',
+                    background: 'rgba(239, 68, 68, 0.2)',
+                    color: '#fca5a5',
+                    border: '1px solid #ef4444',
+                    borderRadius: '4px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.3rem',
+                  }}
+                >
+                  <AlertTriangle size={12} /> False Positive Clutter (Noisy Results Flood)
+                </span>
+              )}
+            </div>
+
+            {/* False Positive Diagnostic Card */}
+            <div
+              style={{
+                padding: '1rem',
+                background: isFalsePositiveClutter(selectedEvidence)
+                  ? 'rgba(239, 68, 68, 0.08)'
+                  : 'rgba(66, 133, 244, 0.08)',
+                border: isFalsePositiveClutter(selectedEvidence)
+                  ? '1px solid rgba(239, 68, 68, 0.3)'
+                  : '1px solid rgba(66, 133, 244, 0.3)',
+                borderRadius: 'var(--radius-md)',
+              }}
+            >
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.4rem', textTransform: 'uppercase' }}>
+                Search Error & Precision Diagnostic
+              </div>
+              <div style={{ fontSize: '0.85rem', lineHeight: 1.5, color: 'var(--text-primary)' }}>
+                {isFalsePositiveClutter(selectedEvidence) ? (
+                  <div>
+                    <strong style={{ color: '#f87171' }}>🚨 Error Mode: False Positive Over-Retrieval (Precision Collapse)</strong>
+                    <p style={{ marginTop: '0.25rem', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
+                      The search system returned an excess of irrelevant candidate images (e.g. single-attribute matches, OCR background signage, or lookalike pets) that buried the user&apos;s target memory.
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <strong style={{ color: '#60a5fa' }}>🔍 Error Mode: False Negative / Recall Miss</strong>
+                    <p style={{ marginTop: '0.25rem', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
+                      The search system returned zero or inadequate candidates due to vocabulary mismatch, temporal amnesia, or missing visual attribute bindings.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Original raw content with verbatim highlight */}
@@ -609,7 +814,7 @@ export default function EvidenceViewerPage() {
                   <strong style={{ color: 'var(--text-secondary)' }}>Failure Points:</strong>
                   <div style={{ marginTop: '4px', display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                     {selectedEvidence.failure_points?.map((fp, i) => (
-                      <Badge key={i} variant="danger" size="sm">
+                      <Badge key={i} variant={fp.includes('false_positive') ? 'danger' : 'neutral'} size="sm">
                         {fp}
                       </Badge>
                     ))}

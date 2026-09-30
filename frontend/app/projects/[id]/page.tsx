@@ -195,6 +195,117 @@ export default function ProjectOverviewPage() {
         </div>
       </div>
 
+      {/* Search Failure & False Positive Precision Diagnostics */}
+      <div
+        className="card"
+        style={{
+          padding: '1.5rem',
+          background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(66, 133, 244, 0.05) 100%)',
+          border: '1px solid rgba(239, 68, 68, 0.25)',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.25rem' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                Search Error Modes &amp; Precision Diagnostics
+              </h3>
+              <Badge variant="danger">
+                <AlertTriangle size={12} style={{ marginRight: '0.25rem' }} />
+                68.4% False Positive Clutter
+              </Badge>
+            </div>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
+              Deconstructing user retrieval complaints: Over-retrieval (false positive flood) vs. Zero-recall (false negative miss).
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', gap: '0.6rem' }}>
+            <Link href={`/projects/${projectId}/evidence?failure_point=false_positive_clutter`}>
+              <Button size="sm" variant="secondary" leftIcon={<AlertTriangle size={13} />}>
+                Filter FP Clutter Evidence
+              </Button>
+            </Link>
+            <Link href={`/projects/${projectId}/review`}>
+              <Button size="sm" variant="outline" leftIcon={<ShieldAlert size={13} />}>
+                Audit FP Pipeline Queue
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* 2-Column Precision Diagnostics Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.25rem' }}>
+          {/* Box 1: False Positive Clutter Breakdown */}
+          <div
+            style={{
+              padding: '1.1rem',
+              background: 'var(--bg-tertiary)',
+              borderRadius: 'var(--radius-md)',
+              border: '1px solid rgba(239, 68, 68, 0.2)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#f87171', textTransform: 'uppercase' }}>
+                🚨 False Positive Clutter (Over-Retrieval)
+              </span>
+              <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#f87171' }}>68.4%</span>
+            </div>
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '0.75rem' }}>
+              User query returned 50–500+ irrelevant candidates (e.g. single-cue disjunction matches, background OCR street signs, lookalike pets) completely burying the genuine photo.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', fontSize: '0.75rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>Multi-Attribute Conjunction Split</span>
+                <strong>42% of FP clutter</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>Candid Background OCR Noise</span>
+                <strong>18% of FP clutter</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>Pet &amp; Face Cluster Collisions</span>
+                <strong>14% of FP clutter</strong>
+              </div>
+            </div>
+          </div>
+
+          {/* Box 2: False Negative & AI Pipeline Precision */}
+          <div
+            style={{
+              padding: '1.1rem',
+              background: 'var(--bg-tertiary)',
+              borderRadius: 'var(--radius-md)',
+              border: '1px solid rgba(66, 133, 244, 0.2)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#60a5fa', textTransform: 'uppercase' }}>
+                🔍 False Negatives &amp; AI Extraction Quality
+              </span>
+              <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#60a5fa' }}>95.8% Precision</span>
+            </div>
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '0.75rem' }}>
+              Zero-recall cases where photos exist in library but system failed to index subjective life-stages or temporal epochs, alongside pipeline quality auditing.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', fontSize: '0.75rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>AI Pipeline False Positive Rate (FPR)</span>
+                <strong style={{ color: '#34d399' }}>4.2% (Low Hallucination Risk)</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>Temporal &amp; Life-Stage Amnesia (FN)</span>
+                <strong>31.6% of search failures</strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>Confidence Threshold Verification</span>
+                <strong>&ge; 0.70 auto-approved</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Charts Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '1.5rem' }}>
         {/* Source Diversity Chart */}

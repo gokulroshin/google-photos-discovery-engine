@@ -221,6 +221,31 @@ export default function TaxonomyPage() {
                   {cat.name}
                 </h3>
 
+                {/* FP Clutter tag if applicable */}
+                {(cat.name.toLowerCase().includes('conjunction') ||
+                  cat.name.toLowerCase().includes('ocr') ||
+                  cat.name.toLowerCase().includes('pet') ||
+                  cat.name.toLowerCase().includes('negative')) && (
+                  <div style={{ marginBottom: '0.6rem' }}>
+                    <span
+                      style={{
+                        fontSize: '0.7rem',
+                        fontWeight: 700,
+                        padding: '0.15rem 0.5rem',
+                        background: 'rgba(239, 68, 68, 0.15)',
+                        color: '#fca5a5',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        borderRadius: '4px',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.25rem',
+                      }}
+                    >
+                      <AlertTriangle size={11} /> False Positive Clutter Driver
+                    </span>
+                  </div>
+                )}
+
                 {/* Definition Summary */}
                 <p
                   style={{
