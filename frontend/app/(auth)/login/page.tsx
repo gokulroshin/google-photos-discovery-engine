@@ -7,7 +7,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace('/projects');
+    router.replace('/projects/proj_photo_retrieval_2026/taxonomy');
   }, [router]);
 
   return (

@@ -235,7 +235,11 @@ class GeminiClient:
                 missing_information="Exact calendar date, album tag, or filename",
                 common_search_behavior="Iterative query rephrasing and manual date timeline scrolling",
                 failure_mechanism="Tag and OCR indexing does not map episodic memory to image features",
-                representative_excerpts=["Searched for yellow raincoat dog in Chicago", "Cannot find receipt from Home Depot"],
+                representative_excerpts=[
+                    "I searched for 'my daughter wearing yellow raincoat jumping in puddle Seattle' and Google Photos gave me every picture of rain and flowers.",
+                    "Trying to find Sarah in a blue floral dress holding a birthday cake. Returns 400 random cakes but not the right one.",
+                    "Searched 'golden retriever red bandana beach sunset' — got every sunset ever taken and random dogs, but none with the bandana.",
+                ],
                 open_questions=["How frequently do users abandon multi-word episodic queries?"],
                 product_implications="Opportunity for multi-modal contextual query expansion and conversational retrieval.",
             )

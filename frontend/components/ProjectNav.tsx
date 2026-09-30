@@ -32,34 +32,28 @@ export const ProjectNav: React.FC<ProjectNavProps> = ({ projectId }) => {
 
   const navItems = [
     {
-      label: 'Overview',
-      href: `/projects/${projectId}`,
-      icon: <LayoutDashboard size={16} />,
-      exact: true,
+      label: 'Core Themes (Taxonomy)',
+      href: `/projects/${projectId}/taxonomy`,
+      icon: <Layers size={16} />,
+      badge: stats?.categories_count ? `${stats.categories_count}` : undefined,
+    },
+    {
+      label: 'Opportunity Areas',
+      href: `/projects/${projectId}/opportunities`,
+      icon: <BarChart3 size={16} />,
+      badge: stats?.opportunities_count ? `${stats.opportunities_count}` : undefined,
+    },
+    {
+      label: 'Review Extracts',
+      href: `/projects/${projectId}/evidence`,
+      icon: <Sparkles size={16} />,
+      badge: stats?.total_evidence ? `${stats.total_evidence}` : undefined,
     },
     {
       label: 'Data Explorer',
       href: `/projects/${projectId}/explorer`,
       icon: <Database size={16} />,
       badge: stats?.total_records ? `${stats.total_records}` : undefined,
-    },
-    {
-      label: 'Evidence Viewer',
-      href: `/projects/${projectId}/evidence`,
-      icon: <Sparkles size={16} />,
-      badge: stats?.total_evidence ? `${stats.total_evidence}` : undefined,
-    },
-    {
-      label: 'Problem Taxonomy',
-      href: `/projects/${projectId}/taxonomy`,
-      icon: <Layers size={16} />,
-      badge: stats?.categories_count ? `${stats.categories_count}` : undefined,
-    },
-    {
-      label: 'Opportunities',
-      href: `/projects/${projectId}/opportunities`,
-      icon: <BarChart3 size={16} />,
-      badge: stats?.opportunities_count ? `${stats.opportunities_count}` : undefined,
     },
     {
       label: 'Semantic Search',
@@ -77,6 +71,12 @@ export const ProjectNav: React.FC<ProjectNavProps> = ({ projectId }) => {
       icon: <CheckSquare size={16} />,
       badge: stats?.review_queue_depth && stats.review_queue_depth > 0 ? `${stats.review_queue_depth}` : undefined,
       badgeVariant: 'warning',
+    },
+    {
+      label: 'Overview',
+      href: `/projects/${projectId}`,
+      icon: <LayoutDashboard size={16} />,
+      exact: true,
     },
     {
       label: 'Job Monitor',

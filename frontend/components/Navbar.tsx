@@ -50,7 +50,7 @@ export function Navbar() {
   return (
     <header className="navbar">
       <div className="nav-brand">
-        <Link href="/projects" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <Link href={`/projects/${currentProjectId}/taxonomy`} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <div className="brand-icon-wrapper">
             <Sparkles size={20} />
           </div>
@@ -62,7 +62,7 @@ export function Navbar() {
               </span>
             </div>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 400 }}>
-              Retrieval Failure Intelligence
+              Google Photos Retrieval Intelligence
             </div>
           </div>
         </Link>
@@ -70,53 +70,53 @@ export function Navbar() {
 
       <nav className="nav-links">
         <Link
-          href="/projects"
-          className={`nav-link ${pathname === '/projects' ? 'active' : ''}`}
+          href={`/projects/${currentProjectId}/taxonomy`}
+          className={`nav-link ${pathname?.includes('/taxonomy') ? 'active' : ''}`}
         >
-          <FolderGit2 size={16} />
-          <span>Projects</span>
+          <Layers size={16} />
+          <span>Core Themes</span>
         </Link>
         <Link
-          href={`/projects/${currentProjectId}`}
-          className={`nav-link ${pathname === `/projects/${currentProjectId}` ? 'active' : ''}`}
+          href={`/projects/${currentProjectId}/opportunities`}
+          className={`nav-link ${pathname?.includes('/opportunities') ? 'active' : ''}`}
         >
           <BarChart3 size={16} />
-          <span>Overview</span>
+          <span>Opportunity Areas</span>
+        </Link>
+        <Link
+          href={`/projects/${currentProjectId}/evidence`}
+          className={`nav-link ${pathname?.includes('/evidence') ? 'active' : ''}`}
+        >
+          <Sparkles size={16} />
+          <span>Review Extracts</span>
         </Link>
         <Link
           href={`/projects/${currentProjectId}/explorer`}
           className={`nav-link ${pathname?.includes('/explorer') ? 'active' : ''}`}
         >
           <Database size={16} />
-          <span>Explorer</span>
+          <span>Data Explorer</span>
         </Link>
         <Link
-          href={`/projects/${currentProjectId}/evidence`}
-          className={`nav-link ${pathname?.includes('/evidence') ? 'active' : ''}`}
+          href={`/projects/${currentProjectId}/search`}
+          className={`nav-link ${pathname?.includes('/search') ? 'active' : ''}`}
         >
           <Search size={16} />
-          <span>Evidence</span>
+          <span>Semantic Search</span>
         </Link>
         <Link
-          href={`/projects/${currentProjectId}/taxonomy`}
-          className={`nav-link ${pathname?.includes('/taxonomy') ? 'active' : ''}`}
+          href={`/projects/${currentProjectId}/report`}
+          className={`nav-link ${pathname?.includes('/report') ? 'active' : ''}`}
         >
-          <Layers size={16} />
-          <span>Taxonomy</span>
+          <FileText size={16} />
+          <span>Synthesis Report</span>
         </Link>
         <Link
-          href={`/projects/${currentProjectId}/review`}
-          className={`nav-link ${pathname?.includes('/review') ? 'active' : ''}`}
-        >
-          <UserCheck size={16} />
-          <span>Review</span>
-        </Link>
-        <Link
-          href={`/projects/${currentProjectId}/jobs`}
-          className={`nav-link ${pathname?.includes('/jobs') ? 'active' : ''}`}
+          href={`/projects/${currentProjectId}`}
+          className={`nav-link ${pathname === `/projects/${currentProjectId}` ? 'active' : ''}`}
         >
           <Activity size={16} />
-          <span>Jobs</span>
+          <span>Overview</span>
         </Link>
       </nav>
 

@@ -100,12 +100,12 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
               marginBottom: '0.35rem',
             }}
           >
-            <Link href="/projects" style={{ color: 'var(--text-secondary)' }}>
-              Projects
-            </Link>
+            <span style={{ color: 'var(--google-blue)', fontWeight: 600 }}>
+              Google Photos Intelligence
+            </span>
             <ChevronRight size={14} />
-            <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
-              {project?.name || projectId}
+            <span style={{ color: 'var(--text-secondary)' }}>
+              Episodic Search & Memory Breakdown Analysis
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -117,10 +117,10 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
                 color: 'var(--text-primary)',
               }}
             >
-              {project?.name || 'Research Project'}
+              Core Themes & Opportunity Discovery
             </h1>
-            <Badge variant={project?.status === 'active' ? 'success' : 'neutral'}>
-              {project?.status || 'Active'}
+            <Badge variant="info">
+              Verified Review Ground-Truth
             </Badge>
           </div>
         </div>

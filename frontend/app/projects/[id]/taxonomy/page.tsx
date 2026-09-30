@@ -252,6 +252,26 @@ export default function TaxonomyPage() {
                     ))}
                   </div>
                 )}
+
+                {/* Prominent Sample Review Extract Callout */}
+                {cat.representative_excerpts && cat.representative_excerpts.length > 0 && (
+                  <div
+                    style={{
+                      marginTop: '0.5rem',
+                      marginBottom: '0.75rem',
+                      padding: '0.65rem 0.85rem',
+                      background: 'rgba(251, 188, 5, 0.08)',
+                      borderLeft: '3px solid var(--google-yellow, #fbbc05)',
+                      borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',
+                      fontSize: '0.8rem',
+                      fontStyle: 'italic',
+                      color: '#fef08a',
+                      lineHeight: 1.45,
+                    }}
+                  >
+                    &ldquo;{cat.representative_excerpts[0]}&rdquo;
+                  </div>
+                )}
               </div>
 
               {/* Bottom Actions */}

@@ -75,8 +75,13 @@ async def lifespan(app: FastAPI):
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
         logger.info("Database tables initialized successfully")
+
+        from backend.database import AsyncSessionLocal
+        from backend.seeds.seed_data import seed_default_dataset
+        async with AsyncSessionLocal() as session:
+            await seed_default_dataset(session)
     except Exception as e:
-        logger.warning("Database table initialization warning", error=str(e))
+        logger.warning("Database table initialization/seeding warning", error=str(e))
 
     yield
     # Shutdown

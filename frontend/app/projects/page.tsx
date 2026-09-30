@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import {
   FolderGit2,
@@ -20,10 +21,16 @@ import { useAuthStore } from '@/lib/auth-store';
 import { Project } from '@/lib/types';
 
 export default function ProjectsPage() {
+  const router = useRouter();
   const { setActiveProjectId } = useAuthStore();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newProjectName, setNewProjectName] = useState('');
   const [newProjectDesc, setNewProjectDesc] = useState('');
+
+  useEffect(() => {
+    setActiveProjectId('proj_photo_retrieval_2026');
+    router.replace('/projects/proj_photo_retrieval_2026/taxonomy');
+  }, [router, setActiveProjectId]);
 
   const { data: projects, isLoading, refetch } = useQuery({
     queryKey: ['projects'],
