@@ -3,6 +3,7 @@ import sys
 import uvicorn
 from backend.config import get_settings
 from backend.logger import logger
+from backend.main import app
 
 if __name__ == "__main__":
     settings = get_settings()

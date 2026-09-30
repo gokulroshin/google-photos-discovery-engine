@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "photo-retrieval-discovery-backend"
+version = "0.1.0"
+description = "FastAPI backend for AI-Powered Photo Retrieval Discovery Engine"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.vercel]
+entrypoint = "backend.main:app"
