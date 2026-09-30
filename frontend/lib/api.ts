@@ -21,7 +21,7 @@ import {
 const rawUrl = (
   process.env.NEXT_PUBLIC_API_BASE_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
-  'http://localhost:8000/v1'
+  'https://google-photos-discovery-engine-production-0333.up.railway.app/v1'
 ).trim().replace(/\/+$/, '');
 
 const API_BASE_URL = rawUrl.endsWith('/v1') ? rawUrl : `${rawUrl}/v1`;
