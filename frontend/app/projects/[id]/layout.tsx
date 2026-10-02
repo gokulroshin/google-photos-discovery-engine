@@ -125,25 +125,7 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
           </div>
         </div>
 
-        {/* Quick Action Buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => setShowIngestModal(true)}
-            leftIcon={<Download size={15} />}
-          >
-            Add More Reviews
-          </Button>
-          <Button
-            size="sm"
-            variant="primary"
-            onClick={() => setShowAnalyzeModal(true)}
-            leftIcon={<Sparkles size={15} />}
-          >
-            Analyze with AI
-          </Button>
-        </div>
+
       </div>
 
       {/* 9-View Navigation Bar */}

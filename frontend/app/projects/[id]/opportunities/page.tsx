@@ -67,18 +67,6 @@ const ALL_DIMENSIONS: DimensionConfig[] = [
     description: 'Share of users who experience this issue in daily searches',
     type: 'text',
   },
-  {
-    key: 'validation_effort',
-    label: 'Effort to Build & Fix',
-    description: 'Engineering and design effort required to build this solution',
-    type: 'badge',
-  },
-  {
-    key: 'workaround_exists',
-    label: 'Is There a Workaround?',
-    description: 'Whether users have any temporary manual trick to find their photo',
-    type: 'text',
-  },
 ];
 
 export default function OpportunityComparisonPage() {
@@ -182,27 +170,7 @@ export default function OpportunityComparisonPage() {
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={exportCSV}
-            leftIcon={<Download size={14} />}
-            disabled={!opportunities || opportunities.length === 0}
-          >
-            Export CSV
-          </Button>
 
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={() => generateMutation.mutate()}
-            isLoading={generateMutation.isPending}
-            leftIcon={<Sparkles size={14} />}
-          >
-            Re-score Opportunities
-          </Button>
-        </div>
       </div>
 
       {isLoading ? (

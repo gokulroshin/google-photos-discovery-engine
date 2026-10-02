@@ -56,14 +56,9 @@ export const ProjectNav: React.FC<ProjectNavProps> = ({ projectId }) => {
       badge: stats?.total_records ? `${stats.total_records}` : undefined,
     },
     {
-      label: 'Search Reviews',
+      label: 'Ask Engine (Q&A)',
       href: `/projects/${projectId}/search`,
       icon: <Search size={16} />,
-    },
-    {
-      label: 'Summary & Product Spec',
-      href: `/projects/${projectId}/report`,
-      icon: <FileText size={16} />,
     },
     {
       label: 'AI Quality Check',

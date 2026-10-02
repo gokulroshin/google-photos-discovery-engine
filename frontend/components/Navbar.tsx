@@ -102,14 +102,7 @@ export function Navbar() {
           className={`nav-link ${pathname?.includes('/search') ? 'active' : ''}`}
         >
           <Search size={16} />
-          <span>Semantic Search</span>
-        </Link>
-        <Link
-          href={`/projects/${currentProjectId}/report`}
-          className={`nav-link ${pathname?.includes('/report') ? 'active' : ''}`}
-        >
-          <FileText size={16} />
-          <span>Synthesis Report</span>
+          <span>Ask Engine (Q&amp;A)</span>
         </Link>
         <Link
           href={`/projects/${currentProjectId}`}
