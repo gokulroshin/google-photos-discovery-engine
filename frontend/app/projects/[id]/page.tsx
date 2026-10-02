@@ -114,13 +114,13 @@ export default function ProjectOverviewPage() {
             <div style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', background: 'rgba(66, 133, 244, 0.15)', color: 'var(--google-blue)' }}>
               <Database size={18} />
             </div>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Raw Source Records</span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Total User Reviews</span>
           </div>
           <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>
             {totalRecords.toLocaleString()}
           </div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-            Across {Object.keys(stats?.source_diversity || {}).length} platforms
+            Across {Object.keys(stats?.source_diversity || {}).length} public platforms
           </div>
         </div>
 
@@ -129,13 +129,13 @@ export default function ProjectOverviewPage() {
             <div style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', background: 'rgba(16, 185, 129, 0.15)', color: 'var(--status-success)' }}>
               <Sparkles size={18} />
             </div>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Relevant Evidence</span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Search Issues Found</span>
           </div>
           <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>
             {totalEvidence.toLocaleString()}
           </div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-            {totalRecords > 0 ? `${Math.round((totalEvidence / totalRecords) * 100)}% relevance yield` : '0%'}
+            {totalRecords > 0 ? `${Math.round((totalEvidence / totalRecords) * 100)}% of reviews mentioned search problems` : '0%'}
           </div>
         </div>
 
@@ -144,13 +144,13 @@ export default function ProjectOverviewPage() {
             <div style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', background: 'rgba(139, 92, 246, 0.15)', color: '#a78bfa' }}>
               <Layers size={18} />
             </div>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Taxonomy Categories</span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Problem Themes</span>
           </div>
           <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>
             {categoriesCount}
           </div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-            Failure clusters
+            Core reasons search fails
           </div>
         </div>
 
@@ -159,13 +159,13 @@ export default function ProjectOverviewPage() {
             <div style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', background: 'rgba(236, 72, 153, 0.15)', color: '#ec4899' }}>
               <BarChart3 size={18} />
             </div>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Opportunity Areas</span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Fix &amp; Feature Ideas</span>
           </div>
           <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>
             {opportunitiesCount}
           </div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-            Scored on 9 dimensions
+            Ranked by impact on users
           </div>
         </div>
 
@@ -174,7 +174,7 @@ export default function ProjectOverviewPage() {
             <div style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', background: 'rgba(245, 158, 11, 0.15)', color: 'var(--status-warning)' }}>
               <ShieldAlert size={18} />
             </div>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Review Queue</span>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>AI Quality Check</span>
           </div>
           <div style={{ fontSize: '1.75rem', fontWeight: 700, color: reviewQueueDepth > 0 ? 'var(--status-warning)' : 'var(--text-primary)' }}>
             {reviewQueueDepth}
@@ -208,27 +208,27 @@ export default function ProjectOverviewPage() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                Search Error Modes &amp; Precision Diagnostics
+                Why Search Fails: Too Many Results vs. Nothing Found
               </h3>
               <Badge variant="danger">
                 <AlertTriangle size={12} style={{ marginRight: '0.25rem' }} />
-                68.4% False Positive Clutter
+                68.4% Too Many Irrelevant Photos
               </Badge>
             </div>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-              Deconstructing user retrieval complaints: Over-retrieval (false positive flood) vs. Zero-recall (false negative miss).
+              Breaking down user complaints: Flooded with unwanted photos vs photos not found at all.
             </p>
           </div>
 
           <div style={{ display: 'flex', gap: '0.6rem' }}>
             <Link href={`/projects/${projectId}/evidence?failure_point=false_positive_clutter`}>
               <Button size="sm" variant="secondary" leftIcon={<AlertTriangle size={13} />}>
-                Filter FP Clutter Evidence
+                See Clutter Complaints
               </Button>
             </Link>
             <Link href={`/projects/${projectId}/review`}>
               <Button size="sm" variant="outline" leftIcon={<ShieldAlert size={13} />}>
-                Audit FP Pipeline Queue
+                Check AI Confidence
               </Button>
             </Link>
           </div>
@@ -247,25 +247,25 @@ export default function ProjectOverviewPage() {
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
               <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#f87171', textTransform: 'uppercase' }}>
-                🚨 False Positive Clutter (Over-Retrieval)
+                🚨 Too Many Irrelevant Photos (Search Clutter)
               </span>
               <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#f87171' }}>68.4%</span>
             </div>
             <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '0.75rem' }}>
-              User query returned 50–500+ irrelevant candidates (e.g. single-cue disjunction matches, background OCR street signs, lookalike pets) completely burying the genuine photo.
+              When users search, Google Photos returns dozens or hundreds of unrelated photos (e.g. street signs, receipts, lookalike pets), completely burying the genuine photo.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', fontSize: '0.75rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Multi-Attribute Conjunction Split</span>
-                <strong>42% of FP clutter</strong>
+                <span>Searching for 2+ things (e.g. &apos;Mom with dog&apos;)</span>
+                <strong>42% of clutter issues</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Candid Background OCR Noise</span>
-                <strong>18% of FP clutter</strong>
+                <span>Words on street signs or receipts in background</span>
+                <strong>18% of clutter issues</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Pet &amp; Face Cluster Collisions</span>
-                <strong>14% of FP clutter</strong>
+                <span>Mixing up similar pets or family members</span>
+                <strong>14% of clutter issues</strong>
               </div>
             </div>
           </div>
@@ -281,25 +281,25 @@ export default function ProjectOverviewPage() {
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
               <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#60a5fa', textTransform: 'uppercase' }}>
-                🔍 False Negatives &amp; AI Extraction Quality
+                🔍 Photos Not Found &amp; AI Accuracy
               </span>
-              <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#60a5fa' }}>95.8% Precision</span>
+              <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#60a5fa' }}>95.8% Accuracy</span>
             </div>
             <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '0.75rem' }}>
-              Zero-recall cases where photos exist in library but system failed to index subjective life-stages or temporal epochs, alongside pipeline quality auditing.
+              Cases where photos definitely exist in the library but Google Photos fails to find them when searching by life milestones or past events.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', fontSize: '0.75rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>AI Pipeline False Positive Rate (FPR)</span>
-                <strong style={{ color: '#34d399' }}>4.2% (Low Hallucination Risk)</strong>
+                <span>AI Categorization Accuracy</span>
+                <strong style={{ color: '#34d399' }}>95.8% (Verified genuine complaints)</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Temporal &amp; Life-Stage Amnesia (FN)</span>
-                <strong>31.6% of search failures</strong>
+                <span>Cannot find past life moments (college, wedding)</span>
+                <strong>31.6% of not-found issues</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>Confidence Threshold Verification</span>
-                <strong>&ge; 0.70 auto-approved</strong>
+                <span>AI Confidence Threshold</span>
+                <strong>&ge; 70% confidence auto-approved</strong>
               </div>
             </div>
           </div>
@@ -312,9 +312,9 @@ export default function ProjectOverviewPage() {
         <div className="card" style={{ padding: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
             <div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 600 }}>Source Diversity Breakdown</h3>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 600 }}>Where User Feedback Came From</h3>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                Distribution of raw records across public channels
+                Count of user reviews collected across platforms
               </p>
             </div>
             <Badge variant="info">Multi-Platform</Badge>
@@ -346,9 +346,9 @@ export default function ProjectOverviewPage() {
         <div className="card" style={{ padding: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
             <div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 600 }}>Confidence Distribution</h3>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 600 }}>AI Confidence Breakdown</h3>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                Gemini classification certainty across evidence records
+                How sure the AI was when categorizing each review
               </p>
             </div>
             <Badge variant="purple">Gemini 1.5 Pro</Badge>
@@ -381,14 +381,14 @@ export default function ProjectOverviewPage() {
       <div className="card" style={{ padding: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
           <div>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 600 }}>Recent Pipeline Activity</h3>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 600 }}>Recent Activity</h3>
             <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-              Execution status of recent data ingestion and classification runs
+              Status of recent review imports and AI analyses
             </p>
           </div>
           <Link href={`/projects/${projectId}/jobs`}>
             <Button size="sm" variant="outline" rightIcon={<ArrowRight size={14} />}>
-              View All Jobs
+              View All Tasks
             </Button>
           </Link>
         </div>

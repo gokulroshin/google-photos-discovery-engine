@@ -64,10 +64,10 @@ export default function SemanticSearchPage() {
       <div className="card" style={{ padding: '1.5rem' }}>
         <div style={{ marginBottom: '1rem' }}>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.01em', marginBottom: '0.25rem' }}>
-            Semantic Vector Search & Discovery
+            Smart Search on User Reviews
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Query evidence records using natural language episodic memory descriptions powered by pgvector embeddings.
+            Search through real user reviews and complaints using plain, everyday language.
           </p>
         </div>
 
@@ -90,7 +90,7 @@ export default function SemanticSearchPage() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Type a natural episodic memory query (e.g. 'daughter yellow dress birthday cake')..."
+            placeholder="Type what you are looking for (e.g. 'daughter yellow dress birthday cake' or 'dog in snow')..."
             style={{
               background: 'transparent',
               border: 'none',
@@ -121,7 +121,7 @@ export default function SemanticSearchPage() {
           >
             <Sparkles size={14} />
             <span>
-              <strong>Tip:</strong> Queries with 5+ words (specifying visual cues, emotions, or settings) yield substantially richer semantic embedding matches.
+              <strong>Tip:</strong> Typing a few more descriptive words (like visual details, places, or time) finds much more relevant user stories.
             </span>
           </div>
         )}
@@ -129,7 +129,7 @@ export default function SemanticSearchPage() {
         {/* Suggested Queries Chips */}
         <div>
           <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '0.4rem' }}>
-            TRY SAMPLE NATURAL MEMORY QUERIES:
+            TRY SEARCHING FOR:
           </span>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
             {sampleQueries.map((q, idx) => (
@@ -160,21 +160,21 @@ export default function SemanticSearchPage() {
       {data && (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 0.5rem' }}>
           <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
-            Found <strong style={{ color: 'var(--text-primary)' }}>{data.total_matches}</strong> semantic matches for &ldquo;{data.query}&rdquo;
+            Found <strong style={{ color: 'var(--text-primary)' }}>{data.total_matches}</strong> matching reviews for &ldquo;{data.query}&rdquo;
           </div>
           {data.is_low_confidence && (
-            <Badge variant="warning">Low Confidence Fallback Matches</Badge>
+            <Badge variant="warning">Best-Effort Matches</Badge>
           )}
         </div>
       )}
 
       {/* Results List */}
       {isLoading ? (
-        <Spinner size="lg" label="Computing embedding similarity..." style={{ minHeight: '250px' }} />
+        <Spinner size="lg" label="Searching reviews..." style={{ minHeight: '250px' }} />
       ) : !data || data.items.length === 0 ? (
         <EmptyState
-          title="No Matching Evidence Found"
-          description="Try broadening your search phrasing or using one of the sample queries above."
+          title="No Matching Reviews Found"
+          description="Try changing your search wording or clicking one of the sample search phrases above."
         />
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -206,10 +206,9 @@ export default function SemanticSearchPage() {
                         color: similarity > 0.8 ? '#34d399' : '#60a5fa',
                         fontSize: '0.775rem',
                         fontWeight: 700,
-                        fontFamily: 'var(--font-mono)',
                       }}
                     >
-                      {simPercent}% Cosine Match
+                      {simPercent}% Match
                     </span>
                     {item.source_platform && <SourceBadge platform={item.source_platform} size="sm" />}
                   </div>
@@ -246,11 +245,11 @@ export default function SemanticSearchPage() {
                 {/* Rationale & Action */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--border-subtle)', paddingTop: '0.65rem' }}>
                   <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                    Gemini Rationale: {item.rationale.substring(0, 90)}...
+                    Why AI Flagged This: {item.rationale.substring(0, 90)}...
                   </span>
 
                   <Button size="sm" variant="outline" onClick={() => setSelectedEvidence(item)}>
-                    Inspect Full Extraction
+                    View Full Review &amp; Details
                   </Button>
                 </div>
               </div>
@@ -264,7 +263,7 @@ export default function SemanticSearchPage() {
         <Modal
           isOpen={!!selectedEvidence}
           onClose={() => setSelectedEvidence(null)}
-          title="Search Match Evidence Details"
+          title="User Review Details"
           footer={
             <Button variant="primary" onClick={() => setSelectedEvidence(null)}>
               Close
@@ -273,14 +272,14 @@ export default function SemanticSearchPage() {
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>
-              <strong style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>RAW CONTENT:</strong>
+              <strong style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>FULL USER REVIEW:</strong>
               <div style={{ padding: '0.75rem', background: 'var(--bg-tertiary)', borderRadius: 'var(--radius-md)', marginTop: '0.25rem', fontSize: '0.85rem' }}>
                 {selectedEvidence.raw_content || selectedEvidence.evidence_excerpt}
               </div>
             </div>
 
             <div>
-              <strong style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>GEMINI RATIONALE:</strong>
+              <strong style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>AI ANALYSIS &amp; REASONING:</strong>
               <div style={{ fontSize: '0.85rem', marginTop: '0.25rem', lineHeight: 1.5 }}>
                 {selectedEvidence.rationale}
               </div>

@@ -33,50 +33,50 @@ interface DimensionConfig {
 const ALL_DIMENSIONS: DimensionConfig[] = [
   {
     key: 'evidence_frequency',
-    label: 'Evidence Frequency',
-    description: 'Number of verified evidence records mapped to this problem area',
+    label: 'User Complaints Count',
+    description: 'How many verified user reviews complain about this issue',
     type: 'score',
   },
   {
     key: 'user_impact_score',
-    label: 'User Impact Score (0–10)',
-    description: 'Estimated severity of user frustration and task impediment',
+    label: 'Frustration Level (0–10)',
+    description: 'How painful or disruptive this problem is to daily users',
     type: 'score',
   },
   {
     key: 'abandonment_rate',
-    label: 'Search Abandonment Rate',
-    description: 'Proportion of users who gave up on finding their photo',
+    label: 'Users Who Gave Up Searching',
+    description: 'Percentage of users who completely gave up on finding their photo',
     type: 'percent',
   },
   {
     key: 'strategic_relevance',
-    label: 'Strategic Relevance (0–10)',
-    description: 'Alignment with Google Photos AI retrieval and core product vision',
+    label: 'Importance for Google Photos (0–10)',
+    description: 'How critical fixing this is for the core photo search experience',
     type: 'score',
   },
   {
     key: 'problem_clarity',
     label: 'Problem Clarity (0–10)',
-    description: 'Precision of the root cause mechanism based on user testimonies',
+    description: 'How clearly we understand the exact root cause from user quotes',
     type: 'score',
   },
   {
     key: 'potential_reach',
-    label: 'Potential Reach',
-    description: 'Breadth of the user population affected by this failure',
+    label: 'Number of Users Affected',
+    description: 'Share of users who experience this issue in daily searches',
     type: 'text',
   },
   {
     key: 'validation_effort',
-    label: 'Validation Effort',
-    description: 'Technical and researcher effort required to prototype and test solution',
+    label: 'Effort to Build & Fix',
+    description: 'Engineering and design effort required to build this solution',
     type: 'badge',
   },
   {
     key: 'workaround_exists',
-    label: 'Workaround Exists',
-    description: 'Whether users currently adopt manual tricks or third-party apps',
+    label: 'Is There a Workaround?',
+    description: 'Whether users have any temporary manual trick to find their photo',
     type: 'text',
   },
 ];
@@ -175,10 +175,10 @@ export default function OpportunityComparisonPage() {
       >
         <div>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
-            Opportunity Area Comparison Matrix
+            What to Build (Feature Opportunities)
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Multi-dimensional evaluation across 9 objective metrics to prioritize photo retrieval investments.
+            Solutions ranked by user frustration, complaint count, and engineering effort.
           </p>
         </div>
 

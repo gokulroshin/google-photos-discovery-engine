@@ -121,12 +121,12 @@ export default function JobMonitoringPage() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
             <h2 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
-              Real-Time Pipeline & Job Monitoring
+              Review Import &amp; AI Analysis Status
             </h2>
-            <Badge variant="info">Live Polling (5s)</Badge>
+            <Badge variant="info">Auto-Refreshing</Badge>
           </div>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Track background worker progress, rate-limiting heartbeats, and failure diagnostics.
+            Track review imports and AI categorization progress.
           </p>
         </div>
 
@@ -137,7 +137,7 @@ export default function JobMonitoringPage() {
             onClick={() => setShowIngestModal(true)}
             leftIcon={<Download size={14} />}
           >
-            New Ingestion Job
+            Import Reviews
           </Button>
 
           <Button
@@ -146,7 +146,7 @@ export default function JobMonitoringPage() {
             onClick={() => setShowAnalyzeModal(true)}
             leftIcon={<Sparkles size={14} />}
           >
-            New Classification Run
+            Run AI Analysis
           </Button>
         </div>
       </div>
@@ -160,7 +160,7 @@ export default function JobMonitoringPage() {
             onClick={() => setActiveTab('ingestion')}
             leftIcon={<Download size={14} />}
           >
-            Source Ingestion Jobs ({ingestionJobs.length})
+            Review Imports ({ingestionJobs.length})
           </Button>
 
           <Button
@@ -169,7 +169,7 @@ export default function JobMonitoringPage() {
             onClick={() => setActiveTab('analysis')}
             leftIcon={<Sparkles size={14} />}
           >
-            Gemini Classification Runs ({modelRuns.length})
+            AI Analysis Runs ({modelRuns.length})
           </Button>
         </div>
       </div>
@@ -178,12 +178,12 @@ export default function JobMonitoringPage() {
       {activeTab === 'ingestion' && (
         <div>
           {isJobsLoading ? (
-            <Spinner size="lg" label="Loading active jobs..." style={{ minHeight: '250px' }} />
+            <Spinner size="lg" label="Loading tasks..." style={{ minHeight: '250px' }} />
           ) : ingestionJobs.length === 0 ? (
             <EmptyState
-              title="No Ingestion Jobs Found"
-              description="Start a new ingestion job to pull user reviews from Google Play, App Store, Reddit, or forums."
-              actionLabel="Launch Ingestion Job"
+              title="No Review Imports Yet"
+              description="Import user reviews from Google Play, App Store, Reddit, or forums."
+              actionLabel="Import Reviews"
               onAction={() => setShowIngestModal(true)}
             />
           ) : (
@@ -216,7 +216,7 @@ export default function JobMonitoringPage() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                         <SourceBadge platform={job.source_type} />
                         <span style={{ fontWeight: 600, fontSize: '0.95rem' }}>
-                          Job #{job.id.substring(0, 8)}
+                          Import Task #{job.id.substring(0, 8)}
                         </span>
                         <Badge
                           variant={
@@ -245,7 +245,7 @@ export default function JobMonitoringPage() {
                             onClick={() => setCancellingJobId(job.id)}
                             leftIcon={<XCircle size={13} />}
                           >
-                            Cancel Job
+                            Cancel
                           </Button>
                         )}
                       </div>
@@ -255,7 +255,7 @@ export default function JobMonitoringPage() {
                     <div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.775rem', color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
                         <span>
-                          Stored <strong>{job.records_stored}</strong> / Found <strong>{job.records_found}</strong> records
+                          Stored <strong>{job.records_stored}</strong> / Found <strong>{job.records_found}</strong> reviews
                         </span>
                         <span>{percent}%</span>
                       </div>
@@ -300,7 +300,7 @@ export default function JobMonitoringPage() {
                           }}
                         >
                           <AlertTriangle size={14} />
-                          <span>{isExpanded ? 'Hide Error Diagnostics' : 'View Failure Logs & Diagnostics'}</span>
+                          <span>{isExpanded ? 'Hide Error Details' : 'View Error Details'}</span>
                           {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                         </button>
 
@@ -338,9 +338,9 @@ export default function JobMonitoringPage() {
           ) : modelRuns.length === 0 ? (
             <EmptyState
               icon={<Sparkles size={32} color="var(--accent-primary)" />}
-              title="No AI Classification Runs"
-              description="Run the Gemini worker to execute 2-stage classification, 12-field extraction, and 768-d vector embedding generation."
-              actionLabel="Launch AI Worker"
+              title="No AI Analysis Runs Yet"
+              description="Run the AI to analyze reviews and detect search failure patterns."
+              actionLabel="Start AI Analysis"
               onAction={() => setShowAnalyzeModal(true)}
             />
           ) : (
@@ -371,7 +371,7 @@ export default function JobMonitoringPage() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                         <Badge variant="purple">{run.model_name || 'Gemini 1.5 Pro'}</Badge>
                         <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                          Prompt v{run.prompt_version || '1.0.0'}
+                          Analysis v{run.prompt_version || '1.0'}
                         </span>
                         <Badge variant={isCompleted ? 'success' : isRunning ? 'info' : isPaused ? 'warning' : 'danger'}>
                           {run.status.toUpperCase()}
@@ -386,7 +386,7 @@ export default function JobMonitoringPage() {
                             onClick={() => resumeRunMutation.mutate(run.id)}
                             leftIcon={<RotateCcw size={13} />}
                           >
-                            Resume Worker
+                            Resume Analysis
                           </Button>
                         )}
                         <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
@@ -399,7 +399,7 @@ export default function JobMonitoringPage() {
                     <div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.775rem', color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
                         <span>
-                          Processed <strong>{run.processed_records}</strong> of <strong>{run.total_records}</strong> records (<strong>{run.relevant_records}</strong> relevant evidence found)
+                          Processed <strong>{run.processed_records}</strong> of <strong>{run.total_records}</strong> reviews (<strong>{run.relevant_records}</strong> search complaints found)
                         </span>
                         <span>{percent}%</span>
                       </div>
@@ -433,7 +433,7 @@ export default function JobMonitoringPage() {
       <Modal
         isOpen={showIngestModal}
         onClose={() => setShowIngestModal(false)}
-        title="Start Source Ingestion Job"
+        title="Import User Reviews"
         footer={
           <>
             <Button variant="ghost" onClick={() => setShowIngestModal(false)}>
@@ -444,7 +444,7 @@ export default function JobMonitoringPage() {
               onClick={() => createJobMutation.mutate()}
               isLoading={createJobMutation.isPending}
             >
-              Start Job
+              Start Review Import
             </Button>
           </>
         }
@@ -452,7 +452,7 @@ export default function JobMonitoringPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div>
             <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.35rem' }}>
-              Select Source Platform Adapter
+              Choose Where to Get Reviews
             </label>
             <select
               value={selectedSource}
@@ -487,7 +487,7 @@ export default function JobMonitoringPage() {
 
           <div>
             <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.35rem' }}>
-              Adapter Parameters (JSON)
+              Import Settings (JSON)
             </label>
             <textarea
               rows={4}
@@ -512,7 +512,7 @@ export default function JobMonitoringPage() {
       <Modal
         isOpen={showAnalyzeModal}
         onClose={() => setShowAnalyzeModal(false)}
-        title="Launch Gemini AI Classification Run"
+        title="Start AI Analysis"
         footer={
           <>
             <Button variant="ghost" onClick={() => setShowAnalyzeModal(false)}>
@@ -523,14 +523,13 @@ export default function JobMonitoringPage() {
               onClick={() => startAnalysisMutation.mutate()}
               isLoading={startAnalysisMutation.isPending}
             >
-              Launch Analysis Worker
+              Start AI Analysis
             </Button>
           </>
         }
       >
         <p style={{ fontSize: '0.875rem', lineHeight: 1.6, color: 'var(--text-primary)' }}>
-          Dispatches asynchronous Gemini 1.5 Pro pipeline across all unanalyzed source records.
-          Jobs run with automated exponential backoff and rate-limit recovery.
+          Analyzes all collected user reviews using Google Gemini to extract search problems and user stories.
         </p>
       </Modal>
 

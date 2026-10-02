@@ -152,7 +152,7 @@ export default function DataExplorerPage() {
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="Search raw feedback contents..."
+                placeholder="Search all user reviews..."
                 style={{
                   background: 'transparent',
                   border: 'none',
@@ -171,9 +171,9 @@ export default function DataExplorerPage() {
           {/* Active filter count & clear */}
           {activeFiltersCount > 0 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Badge variant="warning">{activeFiltersCount} active filter(s)</Badge>
+              <Badge variant="warning">{activeFiltersCount} filter(s) active</Badge>
               <Button size="sm" variant="ghost" onClick={clearAllFilters} leftIcon={<RotateCcw size={14} />}>
-                Clear All
+                Clear Filters
               </Button>
             </div>
           )}
@@ -183,7 +183,7 @@ export default function DataExplorerPage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
           {/* Platform Filter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Platform:</span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Source:</span>
             <select
               value={platform}
               onChange={(e) => updateFilters({ platform: e.target.value || null })}
@@ -196,7 +196,7 @@ export default function DataExplorerPage() {
                 color: 'var(--text-primary)',
               }}
             >
-              <option value="">All Platforms</option>
+              <option value="">All Sources</option>
               <option value="play_store">Google Play Store</option>
               <option value="app_store">Apple App Store</option>
               <option value="reddit">Reddit</option>
@@ -208,7 +208,7 @@ export default function DataExplorerPage() {
 
           {/* Duplicate Filter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Duplicates:</span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Type:</span>
             <select
               value={isDuplicate || ''}
               onChange={(e) => updateFilters({ is_duplicate: e.target.value || null })}
@@ -221,8 +221,8 @@ export default function DataExplorerPage() {
                 color: 'var(--text-primary)',
               }}
             >
-              <option value="">All Records</option>
-              <option value="false">Unique Records Only</option>
+              <option value="">All Reviews</option>
+              <option value="false">Unique Reviews Only</option>
               <option value="true">Exact Duplicates Only</option>
             </select>
           </div>
@@ -255,11 +255,11 @@ export default function DataExplorerPage() {
       {/* Table Container */}
       <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
         {isLoading ? (
-          <Spinner size="lg" label="Loading source records..." style={{ minHeight: '300px' }} />
+          <Spinner size="lg" label="Loading reviews..." style={{ minHeight: '300px' }} />
         ) : !data || data.items.length === 0 ? (
           <EmptyState
-            title="No Matching Records Found"
-            description="Try widening your search terms or resetting platform filters to inspect more source items."
+            title="No Reviews Found"
+            description="Try changing your search keywords or resetting filters."
             actionLabel="Reset Filters"
             onAction={clearAllFilters}
           />
@@ -269,11 +269,11 @@ export default function DataExplorerPage() {
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.875rem' }}>
                 <thead>
                   <tr style={{ background: 'var(--bg-surface-elevated)', borderBottom: '1px solid var(--border-subtle)' }}>
-                    <th style={{ padding: '0.85rem 1rem', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>PLATFORM</th>
-                    <th style={{ padding: '0.85rem 1rem', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>AUTHOR / PSEUDONYM</th>
-                    <th style={{ padding: '0.85rem 1rem', fontSize: '0.75rem', color: 'var(--text-secondary)', width: '45%' }}>CONTENT PREVIEW</th>
+                    <th style={{ padding: '0.85rem 1rem', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>SOURCE</th>
+                    <th style={{ padding: '0.85rem 1rem', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>USER</th>
+                    <th style={{ padding: '0.85rem 1rem', fontSize: '0.75rem', color: 'var(--text-secondary)', width: '45%' }}>REVIEW PREVIEW</th>
                     <th style={{ padding: '0.85rem 1rem', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>DATE</th>
-                    <th style={{ padding: '0.85rem 1rem', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>DUPLICATE</th>
+                    <th style={{ padding: '0.85rem 1rem', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>TYPE</th>
                     <th style={{ padding: '0.85rem 1rem', fontSize: '0.75rem', color: 'var(--text-secondary)', textAlign: 'right' }}>ACTIONS</th>
                   </tr>
                 </thead>
@@ -317,10 +317,10 @@ export default function DataExplorerPage() {
                             onClick={() => setSelectedRecord(record)}
                             leftIcon={<Eye size={13} />}
                           >
-                            Inspect
+                            View
                           </Button>
                           <Link href={`/projects/${projectId}/evidence?search=${encodeURIComponent(record.raw_content.substring(0, 40))}`}>
-                            <Button size="sm" variant="ghost" title="Search evidence for this record">
+                            <Button size="sm" variant="ghost" title="Find search issues from this review">
                               <ExternalLink size={13} />
                             </Button>
                           </Link>
@@ -353,13 +353,13 @@ export default function DataExplorerPage() {
           title={
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <SourceBadge platform={selectedRecord.source_platform} />
-              <span>Source Record Details</span>
+              <span>User Review</span>
             </div>
           }
           footer={
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                Author ID: {selectedRecord.author_handle} (Pseudonymized)
+                User ID: {selectedRecord.author_handle} (Private)
               </div>
               <Button variant="primary" onClick={() => setSelectedRecord(null)}>
                 Close
@@ -370,7 +370,7 @@ export default function DataExplorerPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>
               <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-                RAW UNALTERED FEEDBACK
+                FULL USER REVIEW
               </div>
               <div
                 style={{
@@ -396,14 +396,14 @@ export default function DataExplorerPage() {
                 </div>
               </div>
               <div>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Published Date</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Review Date</span>
                 <div style={{ fontSize: '0.85rem', fontWeight: 500, marginTop: '0.2rem' }}>
                   {selectedRecord.source_date ? new Date(selectedRecord.source_date).toLocaleString() : 'N/A'}
                 </div>
               </div>
               {selectedRecord.source_url && (
                 <div style={{ gridColumn: 'span 2' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Source Link</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Original Link</span>
                   <div style={{ fontSize: '0.85rem', marginTop: '0.2rem', wordBreak: 'break-all' }}>
                     <a
                       href={selectedRecord.source_url}

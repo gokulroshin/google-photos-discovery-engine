@@ -32,54 +32,54 @@ export const ProjectNav: React.FC<ProjectNavProps> = ({ projectId }) => {
 
   const navItems = [
     {
-      label: 'Core Themes (Taxonomy)',
+      label: 'Why Search Fails (Themes)',
       href: `/projects/${projectId}/taxonomy`,
       icon: <Layers size={16} />,
       badge: stats?.categories_count ? `${stats.categories_count}` : undefined,
     },
     {
-      label: 'Opportunity Areas',
+      label: 'What to Build (Opportunities)',
       href: `/projects/${projectId}/opportunities`,
       icon: <BarChart3 size={16} />,
       badge: stats?.opportunities_count ? `${stats.opportunities_count}` : undefined,
     },
     {
-      label: 'Review Extracts',
+      label: 'User Quotes & Complaints',
       href: `/projects/${projectId}/evidence`,
       icon: <Sparkles size={16} />,
       badge: stats?.total_evidence ? `${stats.total_evidence}` : undefined,
     },
     {
-      label: 'Data Explorer',
+      label: 'All User Reviews',
       href: `/projects/${projectId}/explorer`,
       icon: <Database size={16} />,
       badge: stats?.total_records ? `${stats.total_records}` : undefined,
     },
     {
-      label: 'Semantic Search',
+      label: 'Search Reviews',
       href: `/projects/${projectId}/search`,
       icon: <Search size={16} />,
     },
     {
-      label: 'Research Report',
+      label: 'Summary & Product Spec',
       href: `/projects/${projectId}/report`,
       icon: <FileText size={16} />,
     },
     {
-      label: 'Review Queue',
+      label: 'AI Quality Check',
       href: `/projects/${projectId}/review`,
       icon: <CheckSquare size={16} />,
       badge: stats?.review_queue_depth && stats.review_queue_depth > 0 ? `${stats.review_queue_depth}` : undefined,
       badgeVariant: 'warning',
     },
     {
-      label: 'Overview',
+      label: 'Stats & Overview',
       href: `/projects/${projectId}`,
       icon: <LayoutDashboard size={16} />,
       exact: true,
     },
     {
-      label: 'Job Monitor',
+      label: 'Sync Status',
       href: `/projects/${projectId}/jobs`,
       icon: <Activity size={16} />,
     },

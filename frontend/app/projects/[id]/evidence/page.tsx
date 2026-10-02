@@ -170,7 +170,7 @@ export default function EvidenceViewerPage() {
           }}
         >
           <AlertTriangle size={13} color={failurePoint === 'false_positive_clutter' ? '#ef4444' : 'var(--text-muted)'} />
-          <span>🚨 False Positive Clutter (Noisy Results Flood)</span>
+          <span>🚨 Too Many Random Photos (Search Clutter)</span>
         </button>
 
         <button
@@ -191,7 +191,7 @@ export default function EvidenceViewerPage() {
           }}
         >
           <ShieldCheck size={13} color={needsReview === 'true' ? '#f59e0b' : 'var(--text-muted)'} />
-          <span>⚠️ AI FP Risk (Needs Review &lt; 0.70)</span>
+          <span>⚠️ Needs Double-Check (&lt; 70% Confidence)</span>
         </button>
 
         <button
@@ -212,7 +212,7 @@ export default function EvidenceViewerPage() {
           }}
         >
           <XCircle size={13} color={outcome === 'gave_up' ? '#8b5cf6' : 'var(--text-muted)'} />
-          <span>Abandoned Searches</span>
+          <span>Gave Up Searching</span>
         </button>
       </div>
 
@@ -259,7 +259,7 @@ export default function EvidenceViewerPage() {
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="Search scenario, failure point, or excerpt..."
+                placeholder="Search user complaints or keywords..."
                 style={{
                   background: 'transparent',
                   border: 'none',
@@ -271,16 +271,16 @@ export default function EvidenceViewerPage() {
               />
             </div>
             <Button type="submit" size="sm" variant="secondary">
-              Filter
+              Search
             </Button>
           </form>
 
           {/* Filter Status Badge */}
           {activeFiltersCount > 0 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Badge variant="warning">{activeFiltersCount} active filter(s)</Badge>
+              <Badge variant="warning">{activeFiltersCount} filter(s) active</Badge>
               <Button size="sm" variant="ghost" onClick={clearAllFilters} leftIcon={<RotateCcw size={14} />}>
-                Clear All
+                Clear Filters
               </Button>
             </div>
           )}
@@ -304,11 +304,11 @@ export default function EvidenceViewerPage() {
               }}
             >
               <option value="">All Outcomes</option>
-              <option value="gave_up">Gave Up / Abandoned</option>
-              <option value="found_after_effort">Found After Effort</option>
-              <option value="never_found">Never Found</option>
-              <option value="found_alternative">Workaround / Alternative</option>
-              <option value="found_quickly">Found Quickly</option>
+              <option value="gave_up">Gave up searching</option>
+              <option value="found_after_effort">Found after lots of scrolling</option>
+              <option value="never_found">Could not find photo at all</option>
+              <option value="found_alternative">Used a workaround</option>
+              <option value="found_quickly">Found easily</option>
             </select>
           </div>
 
@@ -327,15 +327,15 @@ export default function EvidenceViewerPage() {
                 color: 'var(--text-primary)',
               }}
             >
-              <option value="">All Verification States</option>
-              <option value="true">Needs Human Review Only</option>
-              <option value="false">Verified / Auto-Approved Only</option>
+              <option value="">All Review States</option>
+              <option value="true">Needs Double-Check Only</option>
+              <option value="false">Confirmed / High Confidence Only</option>
             </select>
           </div>
 
           {/* Failure Point / False Positive Filter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Failure / Noise Type:</span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Issue Type:</span>
             <select
               value={failurePoint}
               onChange={(e) => updateFilters({ failure_point: e.target.value || null })}
@@ -348,19 +348,19 @@ export default function EvidenceViewerPage() {
                 color: 'var(--text-primary)',
               }}
             >
-              <option value="">All Failure Types</option>
-              <option value="false_positive_clutter">🚨 False Positive Clutter (Noisy Results Flood)</option>
-              <option value="multi_attribute_conjunction_failure">Multi-Attribute Conjunction Failure</option>
-              <option value="temporal_ambiguity">Temporal & Life-Stage Amnesia</option>
-              <option value="ocr_background_noise">OCR Background & Document Noise</option>
-              <option value="pet_face_clustering_error">Lookalike & Pet Clustering Collisions</option>
-              <option value="negative_filtering_unsupported">Negative / Exclusion Query Unsupported</option>
+              <option value="">All Issue Types</option>
+              <option value="false_positive_clutter">🚨 Too Many Random Photos (Search Clutter)</option>
+              <option value="multi_attribute_conjunction_failure">Multiple Details Search Problem</option>
+              <option value="temporal_ambiguity">Forgotten Dates &amp; Life Moments</option>
+              <option value="ocr_background_noise">Signs &amp; Documents Mixed In</option>
+              <option value="pet_face_clustering_error">Similar Pets / Faces Mixed Up</option>
+              <option value="negative_filtering_unsupported">Cannot Exclude Things (No &apos;NOT&apos;)</option>
             </select>
           </div>
 
           {/* Confidence Filter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Min Confidence:</span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>AI Confidence:</span>
             <select
               value={confMin !== undefined ? confMin.toString() : ''}
               onChange={(e) => updateFilters({ confidence_min: e.target.value || null })}
@@ -374,8 +374,8 @@ export default function EvidenceViewerPage() {
               }}
             >
               <option value="">Any Confidence</option>
-              <option value="0.7">High Confidence (≥ 70%)</option>
-              <option value="0.85">Very High Confidence (≥ 85%)</option>
+              <option value="0.7">High Confidence (&ge; 70%)</option>
+              <option value="0.85">Very High Confidence (&ge; 85%)</option>
             </select>
           </div>
         </div>
@@ -601,7 +601,7 @@ export default function EvidenceViewerPage() {
                       onClick={() => setSelectedEvidence(record)}
                       leftIcon={<Eye size={13} />}
                     >
-                      Full Diagnostic
+                      View Details
                     </Button>
                   </div>
                 </div>
@@ -630,7 +630,7 @@ export default function EvidenceViewerPage() {
           title={
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               <Sparkles size={18} color="var(--accent-primary)" />
-              <span>Evidence Diagnostics & False Positive Audit</span>
+              <span>User Review Story &amp; Details</span>
             </div>
           }
           footer={
@@ -643,7 +643,7 @@ export default function EvidenceViewerPage() {
                   isLoading={reviewMutation.isPending}
                   leftIcon={<CheckCircle2 size={14} />}
                 >
-                  Approve Extraction
+                  Confirm Genuine Problem
                 </Button>
                 <Button
                   size="sm"
@@ -652,7 +652,7 @@ export default function EvidenceViewerPage() {
                   isLoading={reviewMutation.isPending}
                   leftIcon={<XCircle size={14} />}
                 >
-                  Reject as AI False Positive
+                  Mark as Irrelevant / AI Mistake
                 </Button>
               </div>
               <Button variant="primary" onClick={() => setSelectedEvidence(null)}>
@@ -682,7 +682,7 @@ export default function EvidenceViewerPage() {
                     gap: '0.3rem',
                   }}
                 >
-                  <AlertTriangle size={12} /> False Positive Clutter (Noisy Results Flood)
+                  <AlertTriangle size={12} /> Search Clutter (Returned Too Many Random Photos)
                 </span>
               )}
             </div>
@@ -701,21 +701,21 @@ export default function EvidenceViewerPage() {
               }}
             >
               <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.4rem', textTransform: 'uppercase' }}>
-                Search Error & Precision Diagnostic
+                Search Error Breakdown
               </div>
               <div style={{ fontSize: '0.85rem', lineHeight: 1.5, color: 'var(--text-primary)' }}>
                 {isFalsePositiveClutter(selectedEvidence) ? (
                   <div>
-                    <strong style={{ color: '#f87171' }}>🚨 Error Mode: False Positive Over-Retrieval (Precision Collapse)</strong>
+                    <strong style={{ color: '#f87171' }}>🚨 Issue: Too Many Irrelevant Photos (Clutter Flood)</strong>
                     <p style={{ marginTop: '0.25rem', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
-                      The search system returned an excess of irrelevant candidate images (e.g. single-attribute matches, OCR background signage, or lookalike pets) that buried the user&apos;s target memory.
+                      The search returned hundreds of unrelated photos (e.g. any picture of rain or street signs) which buried the photo the user was looking for.
                     </p>
                   </div>
                 ) : (
                   <div>
-                    <strong style={{ color: '#60a5fa' }}>🔍 Error Mode: False Negative / Recall Miss</strong>
+                    <strong style={{ color: '#60a5fa' }}>🔍 Issue: Zero Photos Found (Missed Photo)</strong>
                     <p style={{ marginTop: '0.25rem', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
-                      The search system returned zero or inadequate candidates due to vocabulary mismatch, temporal amnesia, or missing visual attribute bindings.
+                      The search returned zero or no matches because the user did not know the exact calendar date or used descriptive words the app didn’t recognize.
                     </p>
                   </div>
                 )}
@@ -725,7 +725,7 @@ export default function EvidenceViewerPage() {
             {/* Original raw content with verbatim highlight */}
             <div>
               <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-                ORIGINAL RAW CONTENT (VERBATIM EXCERPT HIGHLIGHTED)
+                FULL USER REVIEW (KEY PART HIGHLIGHTED)
               </div>
               <div
                 style={{
@@ -747,7 +747,7 @@ export default function EvidenceViewerPage() {
             {/* 12-Field Structured Table */}
             <div>
               <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-                12 EXTRACTED TAXONOMY FIELDS
+                12 ANALYSIS DETAILS FROM USER STORY
               </div>
               <div
                 style={{

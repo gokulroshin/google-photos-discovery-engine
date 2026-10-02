@@ -96,10 +96,10 @@ export default function TaxonomyPage() {
       >
         <div>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
-            Retrieval Problem Taxonomy
+            Why Search Fails (Core Problem Themes)
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Empirically grounded failure categories synthesized from clustered user evidence.
+            The main reasons users struggle to find their photos, summarized directly from real feedback.
           </p>
         </div>
 
@@ -119,7 +119,7 @@ export default function TaxonomyPage() {
             >
               {Array.from({ length: data.latest_version }).map((_, i) => (
                 <option key={i + 1} value={i + 1}>
-                  Taxonomy Version {i + 1}
+                  Version {i + 1}
                 </option>
               ))}
             </select>
@@ -130,7 +130,7 @@ export default function TaxonomyPage() {
             onClick={() => setShowGenerateModal(true)}
             leftIcon={<Sparkles size={16} />}
           >
-            Generate Taxonomy
+            Re-Cluster Themes
           </Button>
         </div>
       </div>
@@ -139,20 +139,20 @@ export default function TaxonomyPage() {
       {potentialDuplicates.length > 0 && (
         <Alert
           variant="warning"
-          title="Potential Duplicate Problem Categories Detected"
+          title="Similar Problem Themes Found"
         >
-          {potentialDuplicates.length} category pair(s) exhibit pairwise semantic similarity &gt; 0.85. Review and consider merging overlapping clusters.
+          {potentialDuplicates.length} theme pairs are very similar. Review and consider combining them.
         </Alert>
       )}
 
       {/* Category Cards Grid */}
       {isLoading ? (
-        <Spinner size="lg" label="Clustering and synthesizing taxonomy..." style={{ minHeight: '300px' }} />
+        <Spinner size="lg" label="Grouping and organizing search themes..." style={{ minHeight: '300px' }} />
       ) : categories.length === 0 ? (
         <EmptyState
-          title="No Taxonomy Generated Yet"
-          description="Taxonomy clustering groups verified user evidence by failure mechanisms and memory cues."
-          actionLabel="Run Semantic Clustering & Synthesis"
+          title="No Problem Themes Found Yet"
+          description="Click below to group verified user reviews into main search problem categories."
+          actionLabel="Analyze & Group Themes"
           onAction={() => setShowGenerateModal(true)}
         />
       ) : (
@@ -437,7 +437,7 @@ export default function TaxonomyPage() {
               {/* Definition */}
               <div>
                 <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
-                  DEFINITION & SCOPE
+                  WHAT HAPPENS (PROBLEM SUMMARY)
                 </div>
                 <p style={{ fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--text-primary)' }}>
                   {selectedCategory.definition}
@@ -448,7 +448,7 @@ export default function TaxonomyPage() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div style={{ padding: '0.85rem', background: 'var(--bg-tertiary)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>
-                    FAILURE MECHANISM
+                    WHY THE APP FAILS
                   </div>
                   <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>
                     {selectedCategory.failure_mechanism}
@@ -457,7 +457,7 @@ export default function TaxonomyPage() {
 
                 <div style={{ padding: '0.85rem', background: 'var(--bg-tertiary)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>
-                    TARGET USER SEGMENT
+                    WHO IS AFFECTED
                   </div>
                   <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>
                     {selectedCategory.user_segment}
@@ -469,7 +469,7 @@ export default function TaxonomyPage() {
               {selectedCategory.representative_excerpts && selectedCategory.representative_excerpts.length > 0 && (
                 <div>
                   <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
-                    REPRESENTATIVE USER EXCERPTS ({selectedCategory.representative_excerpts.length})
+                    REAL USER QUOTES ({selectedCategory.representative_excerpts.length})
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     {selectedCategory.representative_excerpts.map((excerpt, idx) => (
@@ -497,7 +497,7 @@ export default function TaxonomyPage() {
               {selectedCategory.product_implications && (
                 <div style={{ padding: '0.85rem', background: 'rgba(59, 130, 246, 0.08)', border: '1px solid rgba(59, 130, 246, 0.2)', borderRadius: 'var(--radius-md)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.75rem', fontWeight: 600, color: '#60a5fa', marginBottom: '0.25rem' }}>
-                    <Lightbulb size={14} /> PRODUCT IMPLICATIONS FOR GOOGLE PHOTOS
+                    <Lightbulb size={14} /> RECOMMENDED FIX &amp; PRODUCT DIRECTION
                   </div>
                   <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)', lineHeight: 1.5 }}>
                     {selectedCategory.product_implications}

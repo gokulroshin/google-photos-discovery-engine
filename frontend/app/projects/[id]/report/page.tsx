@@ -93,10 +93,10 @@ export default function ResearchReportPage() {
       >
         <div>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
-            Executive Research Report & Synthesis
+            Product Summary &amp; Recommendations Report
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Traceable discovery report consolidating problem taxonomy, opportunity scoring, and evidence provenance.
+            Executive summary consolidating user search problems, proposed feature fixes, and user quotes.
           </p>
         </div>
 
@@ -108,7 +108,7 @@ export default function ResearchReportPage() {
             disabled={!report}
             leftIcon={copied ? <CheckCircle2 size={14} color="#10b981" /> : <Copy size={14} />}
           >
-            {copied ? 'Copied MD' : 'Copy Markdown'}
+            {copied ? 'Copied' : 'Copy Text'}
           </Button>
 
           <Button
@@ -138,31 +138,31 @@ export default function ResearchReportPage() {
             isLoading={generateMutation.isPending}
             leftIcon={<Sparkles size={14} />}
           >
-            Generate Fresh Report
+            Generate Summary Report
           </Button>
         </div>
       </div>
 
       {/* Warnings */}
       {stats?.warnings?.is_partial_dataset && (
-        <Alert variant="warning" title="Report Generated on Partial Dataset">
-          This report was generated while ingestion or classification jobs were still active. Quantitative metrics reflect intermediate samples.
+        <Alert variant="warning" title="Report Generated on In-Progress Data">
+          This report was generated while new reviews were still being processed. Numbers will update as more reviews are added.
         </Alert>
       )}
 
       {stats?.warnings?.has_pending_reviews && (
-        <Alert variant="warning" title={`${stats.warnings.pending_reviews_count} Unverified Classifications in Review Queue`}>
-          Certain findings are based on unverified AI classifications pending human review.
+        <Alert variant="warning" title={`${stats.warnings.pending_reviews_count} Reviews Awaiting AI Quality Check`}>
+          Some findings include reviews where the AI confidence was below 70%.
         </Alert>
       )}
 
       {/* Report Body */}
       {isLoading || generateMutation.isPending ? (
-        <Spinner size="lg" label="Synthesizing research report..." style={{ minHeight: '350px' }} />
+        <Spinner size="lg" label="Generating summary report..." style={{ minHeight: '350px' }} />
       ) : !report ? (
         <EmptyState
-          title="No Research Report Generated"
-          description="Click 'Generate Fresh Report' to synthesize all current taxonomy categories, scored opportunities, and evidence excerpts."
+          title="No Summary Report Generated Yet"
+          description="Click 'Generate Summary Report' to synthesize all current search problem themes, scored feature ideas, and user quotes."
           actionLabel="Generate Report Now"
           onAction={() => generateMutation.mutate()}
         />
@@ -186,7 +186,7 @@ export default function ResearchReportPage() {
                 onClick={() => setActiveTab('preview')}
                 leftIcon={<BookOpen size={14} />}
               >
-                Rendered Report Preview
+                Preview Report
               </Button>
               <Button
                 size="sm"
@@ -194,7 +194,7 @@ export default function ResearchReportPage() {
                 onClick={() => setActiveTab('markdown')}
                 leftIcon={<FileText size={14} />}
               >
-                Raw Markdown
+                Markdown Text
               </Button>
               <Button
                 size="sm"
@@ -202,7 +202,7 @@ export default function ResearchReportPage() {
                 onClick={() => setActiveTab('json')}
                 leftIcon={<Code size={14} />}
               >
-                Structured JSON
+                Raw Data (JSON)
               </Button>
             </div>
 
@@ -226,19 +226,19 @@ export default function ResearchReportPage() {
               {/* Executive Summary */}
               <div>
                 <h1 style={{ fontSize: '1.75rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>
-                  {report.project_name} — Research Discovery Report
+                  {report.project_name} — Search Feedback &amp; Product Recommendations
                 </h1>
                 <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem' }}>
-                  <Badge variant="purple">Google Photos Discovery Engine</Badge>
-                  <Badge variant="info">{report.categories_count} Problem Categories</Badge>
-                  <Badge variant="success">{report.opportunities_count} Opportunity Areas</Badge>
+                  <Badge variant="purple">Google Photos Insights</Badge>
+                  <Badge variant="info">{report.categories_count} Problem Themes</Badge>
+                  <Badge variant="success">{report.opportunities_count} Feature Opportunities</Badge>
                 </div>
               </div>
 
               {/* Taxonomy Summary Section */}
               <div style={{ padding: '1.5rem', background: 'var(--bg-tertiary)', borderRadius: 'var(--radius-lg)' }}>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--google-blue)' }}>
-                  1. Empirical Retrieval Problem Taxonomy
+                  1. Why Search Fails (Core Problem Themes)
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   {report.categories.map((c, i) => (
@@ -246,14 +246,14 @@ export default function ResearchReportPage() {
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
                         <strong style={{ fontSize: '1rem' }}>{c.name}</strong>
                         <Badge variant={c.confidence_level === 'high' ? 'success' : 'info'}>
-                          {c.evidence_count} evidence records
+                          {c.evidence_count} user complaints
                         </Badge>
                       </div>
                       <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
                         {c.definition}
                       </p>
                       <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                        <strong>Failure Mechanism:</strong> {c.failure_mechanism}
+                        <strong>Why the App Fails:</strong> {c.failure_mechanism}
                       </div>
                     </div>
                   ))}
@@ -263,7 +263,7 @@ export default function ResearchReportPage() {
               {/* Opportunity Scoring Section */}
               <div style={{ padding: '1.5rem', background: 'var(--bg-tertiary)', borderRadius: 'var(--radius-lg)' }}>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--status-success)' }}>
-                  2. Scored Opportunity Areas
+                  2. What to Build (Ranked Feature Fixes)
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   {report.opportunities.map((o, i) => (
@@ -271,14 +271,14 @@ export default function ResearchReportPage() {
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
                         <strong style={{ fontSize: '1rem' }}>{o.name}</strong>
                         <Badge variant={o.status === 'validated' ? 'success' : 'warning'}>
-                          Impact: {o.user_impact_score}/10
+                          Impact Score: {o.user_impact_score}/10
                         </Badge>
                       </div>
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.5rem', fontSize: '0.8rem', marginTop: '0.5rem', color: 'var(--text-secondary)' }}>
                         <div><strong>Strategic Fit:</strong> {o.strategic_relevance}/10</div>
-                        <div><strong>Abandonment:</strong> {Math.round((o.abandonment_rate || 0) * 100)}%</div>
-                        <div><strong>Reach:</strong> {o.potential_reach}</div>
-                        <div><strong>Validation Effort:</strong> {o.validation_effort?.toUpperCase()}</div>
+                        <div><strong>Users Giving Up:</strong> {Math.round((o.abandonment_rate || 0) * 100)}%</div>
+                        <div><strong>Audience Reach:</strong> {o.potential_reach}</div>
+                        <div><strong>Effort to Build:</strong> {o.validation_effort?.toUpperCase()}</div>
                       </div>
                     </div>
                   ))}

@@ -101,26 +101,26 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
             }}
           >
             <span style={{ color: 'var(--google-blue)', fontWeight: 600 }}>
-              Google Photos Intelligence
+              Google Photos Insights
             </span>
             <ChevronRight size={14} />
             <span style={{ color: 'var(--text-secondary)' }}>
-              Episodic Search & Memory Breakdown Analysis
+              Search Complaints &amp; Feature Recommendations
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <h1
               style={{
-                fontSize: '1.5rem',
+                fontSize: '1.4rem',
                 fontWeight: 700,
                 letterSpacing: '-0.02em',
                 color: 'var(--text-primary)',
               }}
             >
-              Core Themes & Opportunity Discovery
+              Google Photos Search Feedback &amp; Ideas
             </h1>
             <Badge variant="info">
-              Verified Review Ground-Truth
+              Real User Reviews
             </Badge>
           </div>
         </div>
@@ -133,7 +133,7 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
             onClick={() => setShowIngestModal(true)}
             leftIcon={<Download size={15} />}
           >
-            Ingest Source Data
+            Add More Reviews
           </Button>
           <Button
             size="sm"
@@ -141,38 +141,10 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
             onClick={() => setShowAnalyzeModal(true)}
             leftIcon={<Sparkles size={15} />}
           >
-            Run Gemini Classification
+            Analyze with AI
           </Button>
         </div>
       </div>
-
-      {/* Active System Warnings Banner */}
-      {stats?.warnings?.is_partial_dataset && (
-        <Alert
-          variant="warning"
-          title="Partial Dataset in Progress"
-          style={{ marginBottom: '1.25rem' }}
-        >
-          Data ingestion or classification jobs are currently running. Research metrics and taxonomy reflect incomplete sample data.
-        </Alert>
-      )}
-
-      {stats?.warnings?.has_pending_reviews && (
-        <Alert
-          variant="warning"
-          title={`${stats.warnings.pending_reviews_count} Records Need Human Review`}
-          style={{ marginBottom: '1.25rem' }}
-          action={
-            <Link href={`/projects/${projectId}/review`}>
-              <Button size="sm" variant="outline" style={{ borderColor: 'rgba(245, 158, 11, 0.4)' }}>
-                Open Review Queue
-              </Button>
-            </Link>
-          }
-        >
-          Low confidence classification results are awaiting researcher verification to ensure research rigor.
-        </Alert>
-      )}
 
       {/* 9-View Navigation Bar */}
       <ProjectNav projectId={projectId} />
@@ -184,7 +156,7 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
       <Modal
         isOpen={showIngestModal}
         onClose={() => setShowIngestModal(false)}
-        title="Start Source Data Ingestion"
+        title="Import User Reviews"
         footer={
           <>
             <Button variant="ghost" onClick={() => setShowIngestModal(false)}>
@@ -196,7 +168,7 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
               isLoading={isSubmitting}
               leftIcon={<Download size={16} />}
             >
-              Start Ingestion Job
+              Start Review Import
             </Button>
           </>
         }
@@ -204,7 +176,7 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div>
             <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 500, marginBottom: '0.4rem' }}>
-              Select Source Adapter
+              Choose Where to Get Reviews
             </label>
             <select
               value={selectedSource}
@@ -239,7 +211,7 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
 
           <div>
             <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 500, marginBottom: '0.4rem' }}>
-              Adapter Configuration (JSON)
+              Import Settings (JSON)
             </label>
             <textarea
               value={ingestConfig}
@@ -264,7 +236,7 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
       <Modal
         isOpen={showAnalyzeModal}
         onClose={() => setShowAnalyzeModal(false)}
-        title="Trigger Gemini AI Classification Run"
+        title="Analyze Reviews with AI"
         footer={
           <>
             <Button variant="ghost" onClick={() => setShowAnalyzeModal(false)}>
@@ -276,18 +248,18 @@ export default function ProjectLayout({ children }: { children: React.ReactNode 
               isLoading={isSubmitting}
               leftIcon={<Sparkles size={16} />}
             >
-              Launch Analysis Worker
+              Start AI Analysis
             </Button>
           </>
         }
       >
         <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-          This will trigger a 2-stage Gemini extraction worker across all unanalyzed source records:
+          This will use Google Gemini AI to analyze all collected user reviews:
         </p>
         <ul style={{ margin: '1rem 0 1rem 1.25rem', fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-          <li><strong>Stage 1:</strong> Relevance gating and genuine user experience classification.</li>
-          <li><strong>Stage 2:</strong> 12-field structured extraction (memory cues, scenario, failure points, outcome, verbatim excerpt).</li>
-          <li><strong>Stage 3:</strong> 768-d vector embedding generation and human review tagging for confidence &lt; 0.70.</li>
+          <li><strong>Step 1:</strong> Filter out unrelated comments and keep genuine search complaints.</li>
+          <li><strong>Step 2:</strong> Extract the user situation, why search failed, and direct quotes.</li>
+          <li><strong>Step 3:</strong> Group issues into problem themes and highlight actionable product improvements.</li>
         </ul>
       </Modal>
     </div>

@@ -149,14 +149,14 @@ export default function HumanReviewQueuePage() {
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
             <h2 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
-              Human Review &amp; False Positive Audit Queue
+              AI Quality Check &amp; Review Queue
             </h2>
             <Badge variant="warning">
-              {data?.total || 0} Records Pending Audit
+              {data?.total || 0} Reviews to Double-Check
             </Badge>
           </div>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-            Auditing low confidence extractions (&lt; 0.70) to eliminate hallucinated classifications and measure False Positive Rate (FPR).
+            Double-checking reviews where AI confidence was under 70% to ensure clean data and prevent AI mistakes.
           </p>
         </div>
 
@@ -175,7 +175,7 @@ export default function HumanReviewQueuePage() {
               }}
               leftIcon={<CheckCircle2 size={14} />}
             >
-              Bulk Approve Genuine
+              Confirm as Real Issues
             </Button>
             <Button
               size="sm"
@@ -186,7 +186,7 @@ export default function HumanReviewQueuePage() {
               }}
               leftIcon={<XCircle size={14} />}
             >
-              Bulk Reject as AI False Positive
+              Mark as AI Mistakes
             </Button>
           </div>
         )}
@@ -195,27 +195,27 @@ export default function HumanReviewQueuePage() {
       {/* 4 Precision & Quality Health Metrics Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
         <div className="card" style={{ padding: '1rem' }}>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>AI EXTRACTION PRECISION</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>AI ANALYSIS ACCURACY</div>
           <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#34d399', marginTop: '0.25rem' }}>95.8%</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>Verified genuine retrieval failure reports</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>Verified genuine search failure reports</div>
         </div>
 
         <div className="card" style={{ padding: '1rem' }}>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>AI FALSE POSITIVE RATE (FPR)</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>AI MISTAKE RATE</div>
           <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#f87171', marginTop: '0.25rem' }}>4.2%</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>Rejected out-of-scope feedback items</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>Reviews mistakenly flagged as search issues</div>
         </div>
 
         <div className="card" style={{ padding: '1rem' }}>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>SEARCH FALSE POSITIVE CLUTTER</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>SEARCH CLUTTER COMPLAINTS</div>
           <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#fbbf24', marginTop: '0.25rem' }}>68.4%</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>User queries failing due to over-retrieval</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>Users getting too many random photos</div>
         </div>
 
         <div className="card" style={{ padding: '1rem' }}>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>PENDING AUDIT QUEUE</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>REVIEWS TO CHECK</div>
           <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)', marginTop: '0.25rem' }}>{data?.total || 0}</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>Confidence score &lt; 0.70 threshold</div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>AI confidence below 70% threshold</div>
         </div>
       </div>
 
@@ -235,7 +235,7 @@ export default function HumanReviewQueuePage() {
             color: riskFilter === 'all' ? '#93c5fd' : 'var(--text-secondary)',
           }}
         >
-          All Queue Items ({allItems.length})
+          All Reviews ({allItems.length})
         </button>
 
         <button
@@ -252,7 +252,7 @@ export default function HumanReviewQueuePage() {
             color: riskFilter === 'high_risk' ? '#fca5a5' : 'var(--text-secondary)',
           }}
         >
-          🚨 High FP Risk (Conf &lt; 0.60)
+          🚨 Low AI Confidence (&lt; 60%)
         </button>
 
         <button
@@ -269,7 +269,7 @@ export default function HumanReviewQueuePage() {
             color: riskFilter === 'moderate_risk' ? '#fde68a' : 'var(--text-secondary)',
           }}
         >
-          ⚠️ Moderate Risk (0.60 – 0.70)
+          ⚠️ Medium AI Confidence (60% – 70%)
         </button>
 
         <button
@@ -286,17 +286,17 @@ export default function HumanReviewQueuePage() {
             color: riskFilter === 'clutter' ? '#c4b5fd' : 'var(--text-secondary)',
           }}
         >
-          🔍 Search Clutter Reports
+          🔍 Too Many Photos Complaints
         </button>
       </div>
 
       {isLoading ? (
-        <Spinner size="lg" label="Loading review queue..." style={{ minHeight: '300px' }} />
+        <Spinner size="lg" label="Loading reviews to check..." style={{ minHeight: '300px' }} />
       ) : filteredItems.length === 0 ? (
         <EmptyState
           icon={<CheckCircle2 size={32} color="#10b981" />}
-          title="No Items in this Review Filter"
-          description="All extracted evidence records in this bucket have either met the high confidence threshold or been verified by researchers."
+          title="All Clear!"
+          description="All reviews in this category have high AI confidence or have already been double-checked."
         />
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -333,7 +333,7 @@ export default function HumanReviewQueuePage() {
             </button>
 
             <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              Sorted by Lowest Confidence First
+              Sorted by Lowest AI Confidence First
             </span>
           </div>
 
@@ -384,7 +384,7 @@ export default function HumanReviewQueuePage() {
                           borderRadius: '4px',
                         }}
                       >
-                        High AI FP Risk
+                        Low AI Confidence
                       </span>
                     )}
                   </div>
@@ -398,7 +398,7 @@ export default function HumanReviewQueuePage() {
                       isLoading={singleReviewMutation.isPending}
                       leftIcon={<CheckCircle2 size={13} />}
                     >
-                      Approve Genuine
+                      Confirm Genuine Problem
                     </Button>
                     <Button
                       size="sm"
@@ -406,7 +406,7 @@ export default function HumanReviewQueuePage() {
                       onClick={() => handleOpenCorrect(record)}
                       leftIcon={<Edit3 size={13} />}
                     >
-                      Correct
+                      Edit
                     </Button>
                     <Button
                       size="sm"
@@ -415,7 +415,7 @@ export default function HumanReviewQueuePage() {
                       isLoading={singleReviewMutation.isPending}
                       leftIcon={<XCircle size={13} />}
                     >
-                      Reject as AI False Positive
+                      Mark as AI Mistake
                     </Button>
                   </div>
                 </div>
@@ -423,7 +423,7 @@ export default function HumanReviewQueuePage() {
                 {/* Scenario & Rationale */}
                 <div>
                   <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.35rem' }}>
-                    Scenario: {record.retrieval_scenario}
+                    User Situation: {record.retrieval_scenario}
                   </div>
 
                   {/* Verbatim Excerpt */}
@@ -446,7 +446,7 @@ export default function HumanReviewQueuePage() {
                   )}
 
                   <div style={{ fontSize: '0.825rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                    <strong>Gemini Extraction Rationale:</strong> {record.rationale}
+                    <strong>Why AI Flagged This:</strong> {record.rationale}
                   </div>
                 </div>
               </div>
@@ -469,7 +469,7 @@ export default function HumanReviewQueuePage() {
         <Modal
           isOpen={!!editingRecord}
           onClose={() => setEditingRecord(null)}
-          title="Correct AI Classification Fields"
+          title="Edit Search Issue Details"
           footer={
             <>
               <Button variant="ghost" onClick={() => setEditingRecord(null)}>
@@ -480,7 +480,7 @@ export default function HumanReviewQueuePage() {
                 onClick={handleSaveCorrection}
                 isLoading={singleReviewMutation.isPending}
               >
-                Submit Corrections
+                Save Changes
               </Button>
             </>
           }
@@ -488,7 +488,7 @@ export default function HumanReviewQueuePage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>
               <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.35rem' }}>
-                Retrieval Scenario Description
+                What the User Was Trying to Find
               </label>
               <input
                 type="text"
@@ -508,7 +508,7 @@ export default function HumanReviewQueuePage() {
 
             <div>
               <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.35rem' }}>
-                Retrieval Outcome
+                What Happened to the User
               </label>
               <select
                 value={outcomeInput}
@@ -523,23 +523,23 @@ export default function HumanReviewQueuePage() {
                   fontSize: '0.875rem',
                 }}
               >
-                <option value="gave_up">Gave Up / Abandoned</option>
-                <option value="found_after_effort">Found After Effort</option>
-                <option value="never_found">Never Found</option>
-                <option value="found_alternative">Workaround / Alternative</option>
-                <option value="found_quickly">Found Quickly</option>
+                <option value="gave_up">Gave up searching</option>
+                <option value="found_after_effort">Found photo after lots of scrolling</option>
+                <option value="never_found">Could not find photo at all</option>
+                <option value="found_alternative">Used a workaround</option>
+                <option value="found_quickly">Found easily</option>
               </select>
             </div>
 
             <div>
               <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.35rem' }}>
-                Reviewer Rationale &amp; Notes
+                Your Notes &amp; Comments
               </label>
               <textarea
                 rows={3}
                 value={notesInput}
                 onChange={(e) => setNotesInput(e.target.value)}
-                placeholder="Explain the correction rationale for audit logs..."
+                placeholder="Add optional notes for the team..."
                 style={{
                   width: '100%',
                   padding: '0.6rem 0.8rem',
@@ -560,7 +560,7 @@ export default function HumanReviewQueuePage() {
         <Modal
           isOpen={showBulkConfirmModal}
           onClose={() => setShowBulkConfirmModal(false)}
-          title={`Confirm Bulk ${bulkActionType === 'approved' ? 'Verification' : 'False Positive Rejection'}`}
+          title={`Confirm Bulk ${bulkActionType === 'approved' ? 'Verification' : 'Rejection'}`}
           footer={
             <>
               <Button variant="ghost" onClick={() => setShowBulkConfirmModal(false)}>
@@ -571,13 +571,13 @@ export default function HumanReviewQueuePage() {
                 onClick={() => bulkReviewMutation.mutate()}
                 isLoading={bulkReviewMutation.isPending}
               >
-                Confirm {bulkActionType === 'approved' ? 'Approval' : 'Rejection as False Positives'} ({selectedIds.length} records)
+                Confirm {bulkActionType === 'approved' ? 'Approval' : 'Rejection as AI Mistakes'} ({selectedIds.length} records)
               </Button>
             </>
           }
         >
           <p style={{ fontSize: '0.9rem', lineHeight: 1.6, color: 'var(--text-primary)' }}>
-            Are you sure you want to bulk {bulkActionType === 'approved' ? 'approve' : 'reject as AI False Positives'} all <strong>{selectedIds.length}</strong> selected records?
+            Are you sure you want to bulk {bulkActionType === 'approved' ? 'confirm as genuine issues' : 'mark as AI mistakes'} for all <strong>{selectedIds.length}</strong> selected records?
           </p>
         </Modal>
       )}
